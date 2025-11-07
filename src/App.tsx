@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { SidebarProvider } from './contexts/SidebarContext';
 import Navigation from './components/Navigation';
 import Sidebar from './components/Sidebar';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -154,7 +155,9 @@ function AppRoutes() {
 function App() {
   return (
     <AuthProvider>
-      <AppRoutes />
+      <SidebarProvider>
+        <AppRoutes />
+      </SidebarProvider>
     </AuthProvider>
   );
 }

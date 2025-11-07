@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import PageLayout from '../components/PageLayout';
 import { Bell, CheckCircle, AlertCircle, Info, AlertTriangle, Trash2, Check } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
@@ -122,17 +123,19 @@ export default function Notifications() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 lg:ml-64 pt-16 flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-gray-600 font-medium">Loading notifications...</p>
+      <PageLayout>
+        <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-gray-600 font-medium">Loading notifications...</p>
+          </div>
         </div>
-      </div>
+      </PageLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 lg:ml-64 pt-16">
+    <PageLayout>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <div className="flex items-center justify-between mb-6">
@@ -255,6 +258,6 @@ export default function Notifications() {
           )}
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 }

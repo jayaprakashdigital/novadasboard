@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import PageLayout from '../components/PageLayout';
 import { Search, ChevronDown, Upload, Edit2, Trash2, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
@@ -138,17 +139,19 @@ export default function UserDetails() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 lg:ml-64 pt-16 flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-gray-600 font-medium">Loading users...</p>
+      <PageLayout>
+        <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-gray-600 font-medium">Loading users...</p>
+          </div>
         </div>
-      </div>
+      </PageLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 lg:ml-64 pt-16">
+    <PageLayout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">User Management</h1>
@@ -368,6 +371,6 @@ export default function UserDetails() {
           </div>
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 }

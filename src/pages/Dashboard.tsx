@@ -13,6 +13,7 @@ import { supabase, Campaign, DashboardSummary } from '../lib/supabase';
 import MetricCard from '../components/MetricCard';
 import PerformanceChart from '../components/PerformanceChart';
 import FilterSidebar, { Filters } from '../components/FilterSidebar';
+import PageLayout from '../components/PageLayout';
 
 interface AggregatedMetrics {
   totalRevenue: number;
@@ -229,12 +230,14 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-gray-600 font-medium">Loading dashboard...</p>
+      <PageLayout>
+        <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-gray-600 font-medium">Loading dashboard...</p>
+          </div>
         </div>
-      </div>
+      </PageLayout>
     );
   }
 
@@ -253,7 +256,7 @@ export default function Dashboard() {
         isOpen={filterOpen}
         onClose={() => setFilterOpen(false)}
       />
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 lg:ml-64 pt-16">
+      <PageLayout>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
@@ -367,7 +370,7 @@ export default function Dashboard() {
           </div>
         </div>
         </div>
-      </div>
+      </PageLayout>
     </>
   );
 }

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { TrendingUp, TrendingDown, Filter } from 'lucide-react';
 import { supabase, Campaign, CampaignMetric } from '../lib/supabase';
 import FilterSidebar, { Filters } from '../components/FilterSidebar';
+import PageLayout from '../components/PageLayout';
 
 interface CampaignWithMetrics extends Campaign {
   metrics: {
@@ -221,12 +222,14 @@ export default function ActiveCampaigns() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-gray-600 font-medium">Loading campaigns...</p>
+      <PageLayout>
+        <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-gray-600 font-medium">Loading campaigns...</p>
+          </div>
         </div>
-      </div>
+      </PageLayout>
     );
   }
 
@@ -239,7 +242,7 @@ export default function ActiveCampaigns() {
         isOpen={filterOpen}
         onClose={() => setFilterOpen(false)}
       />
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 lg:ml-64 pt-16">
+      <PageLayout>
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="mb-8 flex items-center justify-between">
             <div>
@@ -394,7 +397,7 @@ export default function ActiveCampaigns() {
             Showing {filteredCampaigns.length} of {campaigns.length} campaigns
           </div>
         </div>
-      </div>
+      </PageLayout>
     </>
   );
 }

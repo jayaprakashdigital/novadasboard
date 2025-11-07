@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { useSidebar } from '../contexts/SidebarContext';
 import {
   LayoutDashboard,
   Target,
@@ -27,7 +27,7 @@ interface NavItem {
 export default function Sidebar() {
   const location = useLocation();
   const { profile } = useAuth();
-  const [isExpanded, setIsExpanded] = useState(false);
+  const { isExpanded, toggleSidebar } = useSidebar();
 
   const navItems: NavItem[] = [
     {
@@ -106,7 +106,7 @@ export default function Sidebar() {
       >
         <div className="flex flex-col h-full">
           <button
-            onClick={() => setIsExpanded(!isExpanded)}
+            onClick={toggleSidebar}
             className="absolute -right-3 top-6 bg-white border border-gray-200 rounded-full p-1 shadow-md hover:bg-gray-50 transition-colors z-50"
           >
             {isExpanded ? (
@@ -154,7 +154,6 @@ export default function Sidebar() {
         </div>
       </aside>
 
-      <div className={`hidden lg:block transition-all duration-300 ${isExpanded ? 'ml-64' : 'ml-16'}`} />
     </>
   );
 }

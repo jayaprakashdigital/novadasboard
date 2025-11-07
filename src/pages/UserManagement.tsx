@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import PageLayout from '../components/PageLayout';
 import { Users, UserPlus, Edit2, Trash2, Mail, Phone, Calendar, Shield, Search, Filter as FilterIcon } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
@@ -210,18 +211,18 @@ export default function UserManagement() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 lg:ml-64 pt-16">
+      <PageLayout>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center justify-center h-64">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
           </div>
         </div>
-      </div>
+      </PageLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 lg:ml-64 pt-16">
+    <PageLayout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
@@ -627,6 +628,6 @@ export default function UserManagement() {
           </div>
         </div>
       )}
-    </div>
+    </PageLayout>
   );
 }
