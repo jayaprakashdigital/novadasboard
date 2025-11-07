@@ -1,5 +1,5 @@
 import { Calendar } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export interface DateRange {
   startDate: string;
@@ -38,18 +38,49 @@ const presetRanges: DateRange[] = [
     endDate: new Date(new Date().getFullYear(), new Date().getMonth(), 0).toISOString().split('T')[0],
     label: 'Last Month',
   },
+  {
+    startDate: new Date(new Date().getFullYear() - 1, 0, 1).toISOString().split('T')[0],
+    endDate: new Date(new Date().getFullYear() - 1, 11, 31).toISOString().split('T')[0],
+    label: 'Last Year',
+  },
 ];
 
 export default function DateRangeSelector({ onRangeChange, selectedRange }: DateRangeSelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [customStart, setCustomStart] = useState('');
   const [customEnd, setCustomEnd] = useState('');
-  const [showCustom, setShowCustom] = useState(false);
+  const [showDatePanel, setShowDatePanel] = useState(false);
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsOpen(false);
+        setShowDatePanel(false);
+      }
+    };
+
+    if (isOpen || showDatePanel) {
+      document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen, showDatePanel]);
 
   const handlePresetSelect = (range: DateRange) => {
-    onRangeChange(range);
-    setIsOpen(false);
-    setShowCustom(false);
+    if (range.label === 'Last Year') {
+      setShowDatePanel(true);
+      setIsOpen(false);
+      setCustomStart(range.startDate);
+      setCustomEnd(range.endDate);
+    } else {
+      onRangeChange(range);
+      setIsOpen(false);
+      setShowDatePanel(false);
+    }
   };
 
   const handleCustomApply = () => {
@@ -59,9 +90,13 @@ export default function DateRangeSelector({ onRangeChange, selectedRange }: Date
         endDate: customEnd,
         label: 'Custom Range',
       });
-      setIsOpen(false);
-      setShowCustom(false);
+      setShowDatePanel(false);
     }
+  };
+
+  const handleBackdropClick = () => {
+    setIsOpen(false);
+    setShowDatePanel(false);
   };
 
   return (
@@ -90,75 +125,117 @@ export default function DateRangeSelector({ onRangeChange, selectedRange }: Date
             className="fixed inset-0 z-10"
             onClick={() => {
               setIsOpen(false);
-              setShowCustom(false);
+              setShowDatePanel(false);
             }}
           />
           <div className="absolute left-0 sm:right-0 sm:left-auto mt-2 w-full sm:w-72 bg-white rounded-lg shadow-xl border border-gray-200 z-20 overflow-hidden max-w-sm">
-            {!showCustom ? (
-              <div className="py-2">
-                {presetRanges.map((range, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handlePresetSelect(range)}
-                    className={`w-full px-4 py-2.5 text-left hover:bg-gray-50 transition-colors text-sm sm:text-base ${
-                      selectedRange.label === range.label ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'
-                    }`}
-                  >
-                    {range.label}
-                  </button>
-                ))}
-                <div className="border-t border-gray-100 mt-2 pt-2">
-                  <button
-                    onClick={() => setShowCustom(true)}
-                    className="w-full px-4 py-2.5 text-left text-gray-700 hover:bg-gray-50 transition-colors text-sm sm:text-base"
-                  >
-                    Custom Range
-                  </button>
-                </div>
+            <div className="py-2">
+              {presetRanges.map((range, index) => (
+                <button
+                  key={index}
+                  onClick={() => handlePresetSelect(range)}
+                  className={`w-full px-4 py-2.5 text-left hover:bg-gray-50 transition-colors text-sm sm:text-base ${
+                    selectedRange.label === range.label ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'
+                  }`}
+                >
+                  {range.label}
+                </button>
+              ))}
+              <div className="border-t border-gray-100 mt-2 pt-2">
+                <button
+                  onClick={() => {
+                    setShowDatePanel(true);
+                    setIsOpen(false);
+                  }}
+                  className="w-full px-4 py-2.5 text-left text-gray-700 hover:bg-gray-50 transition-colors text-sm sm:text-base"
+                >
+                  Custom Range
+                </button>
               </div>
-            ) : (
-              <div className="p-4">
-                <h3 className="text-sm font-semibold text-gray-900 mb-3">Select Custom Range</h3>
-                <div className="space-y-3">
-                  <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1">Start Date</label>
-                    <input
-                      type="date"
-                      value={customStart}
-                      onChange={(e) => setCustomStart(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1">End Date</label>
-                    <input
-                      type="date"
-                      value={customEnd}
-                      onChange={(e) => setCustomEnd(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
-                  </div>
-                  <div className="flex gap-2 pt-2">
-                    <button
-                      onClick={() => setShowCustom(false)}
-                      className="flex-1 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={handleCustomApply}
-                      disabled={!customStart || !customEnd}
-                      className="flex-1 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      Apply
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
+            </div>
           </div>
         </>
       )}
+
+      {showDatePanel && (
+        <>
+          <div
+            className="date-panel-backdrop fixed inset-0 bg-black bg-opacity-50 z-[999] animate-fadeIn"
+            onClick={handleBackdropClick}
+          />
+          <div
+            className="date-panel-modal fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1000] bg-white rounded-lg shadow-2xl animate-fadeIn w-[calc(100%-32px)] sm:w-[90%] max-w-[400px] max-h-[90vh] overflow-y-auto"
+            style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.15)' }}
+          >
+            <div className="p-6">
+              <h3 className="text-lg font-bold text-gray-900 mb-4">Select Custom Date Range</h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="w-4 h-4 text-gray-600" />
+                      <span>Start Date</span>
+                    </div>
+                  </label>
+                  <input
+                    type="date"
+                    value={customStart}
+                    onChange={(e) => setCustomStart(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[44px]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="w-4 h-4 text-gray-600" />
+                      <span>End Date</span>
+                    </div>
+                  </label>
+                  <input
+                    type="date"
+                    value={customEnd}
+                    onChange={(e) => setCustomEnd(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[44px]"
+                  />
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                  <button
+                    onClick={handleBackdropClick}
+                    className="flex-1 px-4 py-3 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-base font-medium min-h-[44px]"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleCustomApply}
+                    disabled={!customStart || !customEnd}
+                    className="flex-1 px-4 py-3 rounded-lg transition-colors text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
+                    style={{
+                      backgroundColor: customStart && customEnd ? '#7BA3E8' : '#7BA3E8',
+                      color: 'white'
+                    }}
+                  >
+                    Apply
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      <style>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.2s ease;
+        }
+      `}</style>
     </div>
   );
 }
