@@ -125,7 +125,7 @@ export default function FilterSidebar({ filters, onFilterChange, filterOptions, 
             <select
               value={filters.trafficSource}
               onChange={(e) => updateFilter('trafficSource', e.target.value)}
-              className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-white focus:border-transparent text-sm"
+              className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-white focus:border-transparent text-sm [&>option]:bg-gray-800 [&>option]:text-white"
             >
               <option value="all">Select Traffic Source</option>
               {filterOptions.trafficSources.map((source) => (
@@ -141,7 +141,7 @@ export default function FilterSidebar({ filters, onFilterChange, filterOptions, 
             <select
               value={filters.channel}
               onChange={(e) => updateFilter('channel', e.target.value)}
-              className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-white focus:border-transparent text-sm"
+              className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-white focus:border-transparent text-sm [&>option]:bg-gray-800 [&>option]:text-white"
             >
               <option value="all">Select Channel</option>
               {filterOptions.channels.map((channel) => (
@@ -157,7 +157,7 @@ export default function FilterSidebar({ filters, onFilterChange, filterOptions, 
             <select
               value={filters.region}
               onChange={(e) => updateFilter('region', e.target.value)}
-              className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-white focus:border-transparent text-sm"
+              className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-white focus:border-transparent text-sm [&>option]:bg-gray-800 [&>option]:text-white"
             >
               <option value="all">Select Region</option>
               {filterOptions.regions.map((region) => (
@@ -173,7 +173,7 @@ export default function FilterSidebar({ filters, onFilterChange, filterOptions, 
             <select
               value={filters.conversionType}
               onChange={(e) => updateFilter('conversionType', e.target.value)}
-              className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-white focus:border-transparent text-sm"
+              className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-white focus:border-transparent text-sm [&>option]:bg-gray-800 [&>option]:text-white"
             >
               <option value="all">Select Conversion Type</option>
               {filterOptions.conversionTypes.map((type) => (
@@ -189,7 +189,7 @@ export default function FilterSidebar({ filters, onFilterChange, filterOptions, 
             <select
               value={filters.bxType}
               onChange={(e) => updateFilter('bxType', e.target.value)}
-              className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-white focus:border-transparent text-sm"
+              className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-white focus:border-transparent text-sm [&>option]:bg-gray-800 [&>option]:text-white"
             >
               <option value="all">Select Bx Type</option>
               {filterOptions.bxTypes.map((type) => (
@@ -205,7 +205,7 @@ export default function FilterSidebar({ filters, onFilterChange, filterOptions, 
             <select
               value={filters.centerName}
               onChange={(e) => updateFilter('centerName', e.target.value)}
-              className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-white focus:border-transparent text-sm"
+              className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-white focus:border-transparent text-sm [&>option]:bg-gray-800 [&>option]:text-white"
             >
               <option value="all">Select Centre</option>
               {filterOptions.centerNames.map((center) => (
@@ -221,7 +221,7 @@ export default function FilterSidebar({ filters, onFilterChange, filterOptions, 
             <select
               value={filters.rh}
               onChange={(e) => updateFilter('rh', e.target.value)}
-              className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-white focus:border-transparent text-sm"
+              className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-white focus:border-transparent text-sm [&>option]:bg-gray-800 [&>option]:text-white"
             >
               <option value="all">Select RH</option>
               {filterOptions.rhs.map((rh) => (
@@ -237,7 +237,7 @@ export default function FilterSidebar({ filters, onFilterChange, filterOptions, 
             <select
               value={filters.platform}
               onChange={(e) => updateFilter('platform', e.target.value)}
-              className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-white focus:border-transparent text-sm"
+              className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-white focus:border-transparent text-sm [&>option]:bg-gray-800 [&>option]:text-white"
             >
               <option value="all">Select Campaign</option>
               {filterOptions.platforms.map((platform) => (
