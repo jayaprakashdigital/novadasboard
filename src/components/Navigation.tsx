@@ -93,11 +93,6 @@ export default function Navigation() {
               alt="Nova IVF"
               className="h-10 sm:h-12 w-auto transition-transform group-hover:scale-105"
             />
-            <div className="hidden sm:block">
-              <div className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">
-                JP Dashboard
-              </div>
-            </div>
           </Link>
 
           <div className="hidden lg:flex items-center gap-1 xl:gap-2">
