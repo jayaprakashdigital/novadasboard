@@ -97,7 +97,6 @@ export default function Navigation() {
               <div className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">
                 JP Dashboard
               </div>
-              <div className="text-xs text-gray-500 -mt-1">Marketing Analytics</div>
             </div>
           </Link>
 
