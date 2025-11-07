@@ -1,4 +1,4 @@
-import { Calendar } from 'lucide-react';
+import { Calendar, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 export interface DateRange {
@@ -46,20 +46,20 @@ const presetRanges: DateRange[] = [
 ];
 
 export default function DateRangeSelector({ onRangeChange, selectedRange }: DateRangeSelectorProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [customStart, setCustomStart] = useState('');
   const [customEnd, setCustomEnd] = useState('');
-  const [showDatePanel, setShowDatePanel] = useState(false);
+  const [showCustomDateInputs, setShowCustomDateInputs] = useState(false);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        setIsOpen(false);
-        setShowDatePanel(false);
+        setShowModal(false);
+        setShowCustomDateInputs(false);
       }
     };
 
-    if (isOpen || showDatePanel) {
+    if (showModal) {
       document.addEventListener('keydown', handleEscape);
       document.body.style.overflow = 'hidden';
     }
@@ -68,19 +68,18 @@ export default function DateRangeSelector({ onRangeChange, selectedRange }: Date
       document.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = 'unset';
     };
-  }, [isOpen, showDatePanel]);
+  }, [showModal]);
 
   const handlePresetSelect = (range: DateRange) => {
-    if (range.label === 'Last Year') {
-      setShowDatePanel(true);
-      setIsOpen(false);
-      setCustomStart(range.startDate);
-      setCustomEnd(range.endDate);
-    } else {
-      onRangeChange(range);
-      setIsOpen(false);
-      setShowDatePanel(false);
-    }
+    onRangeChange(range);
+    setShowModal(false);
+    setShowCustomDateInputs(false);
+  };
+
+  const handleCustomRangeClick = () => {
+    setShowCustomDateInputs(true);
+    setCustomStart('');
+    setCustomEnd('');
   };
 
   const handleCustomApply = () => {
@@ -90,27 +89,28 @@ export default function DateRangeSelector({ onRangeChange, selectedRange }: Date
         endDate: customEnd,
         label: 'Custom Range',
       });
-      setShowDatePanel(false);
+      setShowModal(false);
+      setShowCustomDateInputs(false);
     }
   };
 
   const handleBackdropClick = () => {
-    setIsOpen(false);
-    setShowDatePanel(false);
+    setShowModal(false);
+    setShowCustomDateInputs(false);
   };
 
   return (
-    <div className="relative">
+    <>
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors shadow-sm w-full sm:w-auto justify-between sm:justify-start"
+        onClick={() => setShowModal(true)}
+        className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors shadow-sm w-full justify-between"
       >
         <div className="flex items-center gap-2">
           <Calendar className="w-4 h-4 text-gray-600 flex-shrink-0" />
-          <span className="font-medium text-gray-700 text-sm sm:text-base truncate">{selectedRange.label}</span>
+          <span className="font-medium text-gray-700 text-sm truncate">{selectedRange.label}</span>
         </div>
         <svg
-          className={`w-4 h-4 text-gray-600 transition-transform flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-4 h-4 text-gray-600 transition-transform flex-shrink-0 ${showModal ? 'rotate-180' : ''}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -119,45 +119,7 @@ export default function DateRangeSelector({ onRangeChange, selectedRange }: Date
         </svg>
       </button>
 
-      {isOpen && (
-        <>
-          <div
-            className="fixed inset-0 z-10"
-            onClick={() => {
-              setIsOpen(false);
-              setShowDatePanel(false);
-            }}
-          />
-          <div className="absolute left-0 sm:right-0 sm:left-auto mt-2 w-full sm:w-72 bg-white rounded-lg shadow-xl border border-gray-200 z-20 overflow-hidden max-w-sm">
-            <div className="py-2">
-              {presetRanges.map((range, index) => (
-                <button
-                  key={index}
-                  onClick={() => handlePresetSelect(range)}
-                  className={`w-full px-4 py-2.5 text-left hover:bg-gray-50 transition-colors text-sm sm:text-base ${
-                    selectedRange.label === range.label ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'
-                  }`}
-                >
-                  {range.label}
-                </button>
-              ))}
-              <div className="border-t border-gray-100 mt-2 pt-2">
-                <button
-                  onClick={() => {
-                    setShowDatePanel(true);
-                    setIsOpen(false);
-                  }}
-                  className="w-full px-4 py-2.5 text-left text-gray-700 hover:bg-gray-50 transition-colors text-sm sm:text-base"
-                >
-                  Custom Range
-                </button>
-              </div>
-            </div>
-          </div>
-        </>
-      )}
-
-      {showDatePanel && (
+      {showModal && (
         <>
           <div
             className="date-panel-backdrop fixed inset-0 bg-black bg-opacity-50 z-[999] animate-fadeIn"
@@ -168,56 +130,91 @@ export default function DateRangeSelector({ onRangeChange, selectedRange }: Date
             style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.15)' }}
           >
             <div className="p-6">
-              <h3 className="text-lg font-bold text-gray-900 mb-4">Select Custom Date Range</h3>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-gray-600" />
-                      <span>Start Date</span>
-                    </div>
-                  </label>
-                  <input
-                    type="date"
-                    value={customStart}
-                    onChange={(e) => setCustomStart(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[44px]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-gray-600" />
-                      <span>End Date</span>
-                    </div>
-                  </label>
-                  <input
-                    type="date"
-                    value={customEnd}
-                    onChange={(e) => setCustomEnd(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[44px]"
-                  />
-                </div>
-                <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                  <button
-                    onClick={handleBackdropClick}
-                    className="flex-1 px-4 py-3 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-base font-medium min-h-[44px]"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={handleCustomApply}
-                    disabled={!customStart || !customEnd}
-                    className="flex-1 px-4 py-3 rounded-lg transition-colors text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
-                    style={{
-                      backgroundColor: customStart && customEnd ? '#7BA3E8' : '#7BA3E8',
-                      color: 'white'
-                    }}
-                  >
-                    Apply
-                  </button>
-                </div>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-bold text-gray-900">Select Date Range</h3>
+                <button
+                  onClick={handleBackdropClick}
+                  className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
+                >
+                  <X className="w-5 h-5 text-gray-600" />
+                </button>
               </div>
+
+              {!showCustomDateInputs ? (
+                <div className="space-y-1">
+                  {presetRanges.map((range, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handlePresetSelect(range)}
+                      className={`w-full px-4 py-3 text-left rounded-lg transition-colors text-base min-h-[44px] ${
+                        selectedRange.label === range.label
+                          ? 'bg-blue-50 text-blue-700 font-medium'
+                          : 'text-gray-700 hover:bg-gray-50'
+                      }`}
+                    >
+                      {range.label}
+                    </button>
+                  ))}
+                  <div className="border-t border-gray-200 my-2 pt-2">
+                    <button
+                      onClick={handleCustomRangeClick}
+                      className="w-full px-4 py-3 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors text-base min-h-[44px]"
+                    >
+                      Custom Range
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4 text-gray-600" />
+                        <span>Start Date</span>
+                      </div>
+                    </label>
+                    <input
+                      type="date"
+                      value={customStart}
+                      onChange={(e) => setCustomStart(e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[44px]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4 text-gray-600" />
+                        <span>End Date</span>
+                      </div>
+                    </label>
+                    <input
+                      type="date"
+                      value={customEnd}
+                      onChange={(e) => setCustomEnd(e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[44px]"
+                    />
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                    <button
+                      onClick={() => setShowCustomDateInputs(false)}
+                      className="flex-1 px-4 py-3 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-base font-medium min-h-[44px]"
+                    >
+                      Back
+                    </button>
+                    <button
+                      onClick={handleCustomApply}
+                      disabled={!customStart || !customEnd}
+                      className="flex-1 px-4 py-3 rounded-lg transition-colors text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
+                      style={{
+                        backgroundColor: customStart && customEnd ? '#7BA3E8' : '#7BA3E8',
+                        color: 'white'
+                      }}
+                    >
+                      Apply
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </>
@@ -236,6 +233,6 @@ export default function DateRangeSelector({ onRangeChange, selectedRange }: Date
           animation: fadeIn 0.2s ease;
         }
       `}</style>
-    </div>
+    </>
   );
 }
