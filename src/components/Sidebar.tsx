@@ -12,6 +12,8 @@ import {
   Shield,
   Users,
   UserCircle,
+  Bell,
+  CheckSquare,
   ChevronRight,
   ChevronLeft,
 } from 'lucide-react';
@@ -62,6 +64,16 @@ export default function Sidebar() {
       path: '/tools',
       label: 'Marketing Tools',
       icon: Calculator,
+    },
+    {
+      path: '/notifications',
+      label: 'Notifications',
+      icon: Bell,
+    },
+    {
+      path: '/tasks',
+      label: 'Tasks',
+      icon: CheckSquare,
     },
     {
       path: '/profile',

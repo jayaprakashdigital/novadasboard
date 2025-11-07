@@ -17,6 +17,8 @@ import UserDetails from './pages/UserDetails';
 import UserProfile from './pages/UserProfile';
 import Tools from './pages/Tools';
 import Admin from './pages/Admin';
+import Notifications from './pages/Notifications';
+import Tasks from './pages/Tasks';
 
 function AppRoutes() {
   const { user } = useAuth();
@@ -109,6 +111,22 @@ function AppRoutes() {
           element={
             <ProtectedRoute requireAdmin>
               <UserDetails />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/notifications"
+          element={
+            <ProtectedRoute>
+              <Notifications />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/tasks"
+          element={
+            <ProtectedRoute>
+              <Tasks />
             </ProtectedRoute>
           }
         />

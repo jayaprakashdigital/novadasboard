@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import { TrendingUp, TrendingDown, Filter, Upload } from 'lucide-react';
+import { TrendingUp, TrendingDown, Filter } from 'lucide-react';
 import { supabase, Campaign, CampaignMetric } from '../lib/supabase';
 import FilterSidebar, { Filters } from '../components/FilterSidebar';
-import ExcelUpload from '../components/ExcelUpload';
 
 interface CampaignWithMetrics extends Campaign {
   metrics: {
@@ -22,7 +21,6 @@ export default function ActiveCampaigns() {
   const [filteredCampaigns, setFilteredCampaigns] = useState<CampaignWithMetrics[]>([]);
   const [loading, setLoading] = useState(true);
   const [filterOpen, setFilterOpen] = useState(false);
-  const [uploadOpen, setUploadOpen] = useState(false);
   const [filters, setFilters] = useState<Filters>({
     search: '',
     platform: 'all',
@@ -241,13 +239,6 @@ export default function ActiveCampaigns() {
         isOpen={filterOpen}
         onClose={() => setFilterOpen(false)}
       />
-      <ExcelUpload
-        isOpen={uploadOpen}
-        onClose={() => setUploadOpen(false)}
-        onSuccess={() => {
-          fetchCampaigns();
-        }}
-      />
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 lg:ml-64 pt-16">
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="mb-8 flex items-center justify-between">
@@ -255,23 +246,13 @@ export default function ActiveCampaigns() {
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Active Campaigns</h1>
               <p className="text-sm sm:text-base text-gray-600">Monitor and analyze your campaign performance</p>
             </div>
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => setUploadOpen(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors shadow-sm"
-              >
-                <Upload className="w-4 h-4" />
-                <span className="font-medium hidden sm:inline">Upload Excel</span>
-                <span className="font-medium sm:hidden">Upload</span>
-              </button>
-              <button
-                onClick={() => setFilterOpen(!filterOpen)}
-                className="lg:hidden flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
-              >
-                <Filter className="w-4 h-4" />
-                <span className="font-medium">Filters</span>
-              </button>
-            </div>
+            <button
+              onClick={() => setFilterOpen(!filterOpen)}
+              className="lg:hidden flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+            >
+              <Filter className="w-4 h-4" />
+              <span className="font-medium">Filters</span>
+            </button>
           </div>
 
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
