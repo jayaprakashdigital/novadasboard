@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { Upload, X, FileSpreadsheet, AlertCircle, CheckCircle, Download } from 'lucide-react';
-import * as XLSX from 'xlsx';
+import { read, utils, write } from 'xlsx';
 import { supabase } from '../lib/supabase';
 
 interface ExcelUploadProps {
@@ -60,10 +60,10 @@ export default function ExcelUpload({ isOpen, onClose, onSuccess }: ExcelUploadP
       reader.onload = (e) => {
         try {
           const data = e.target?.result;
-          const workbook = XLSX.read(data, { type: 'binary' });
+          const workbook = read(data, { type: 'binary' });
           const sheetName = workbook.SheetNames[0];
           const worksheet = workbook.Sheets[sheetName];
-          const jsonData = XLSX.utils.sheet_to_json(worksheet) as ExcelRow[];
+          const jsonData = utils.sheet_to_json(worksheet) as ExcelRow[];
           resolve(jsonData);
         } catch (err) {
           reject(err);
@@ -224,10 +224,20 @@ export default function ExcelUpload({ isOpen, onClose, onSuccess }: ExcelUploadP
       },
     ];
 
-    const ws = XLSX.utils.json_to_sheet(template);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Campaign Template');
-    XLSX.writeFile(wb, 'campaign_upload_template.xlsx');
+    const ws = utils.json_to_sheet(template);
+    const wb = utils.book_new();
+    utils.book_append_sheet(wb, ws, 'Campaign Template');
+    write(wb, { bookType: 'xlsx', type: 'buffer' });
+
+    const blob = new Blob([write(wb, { bookType: 'xlsx', type: 'array' })], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'campaign_upload_template.xlsx';
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   if (!isOpen) return null;
