@@ -127,7 +127,7 @@ export default function FilterSidebar({ filters, onFilterChange, filterOptions, 
               onChange={(e) => updateFilter('trafficSource', e.target.value)}
               className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-white focus:border-transparent text-sm"
             >
-              <option value="all">All Traffic Sources</option>
+              <option value="all">Select Traffic Source</option>
               {filterOptions.trafficSources.map((source) => (
                 <option key={source} value={source}>
                   {source}
@@ -143,7 +143,7 @@ export default function FilterSidebar({ filters, onFilterChange, filterOptions, 
               onChange={(e) => updateFilter('channel', e.target.value)}
               className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-white focus:border-transparent text-sm"
             >
-              <option value="all">All Channels</option>
+              <option value="all">Select Channel</option>
               {filterOptions.channels.map((channel) => (
                 <option key={channel} value={channel}>
                   {channel}
@@ -159,7 +159,7 @@ export default function FilterSidebar({ filters, onFilterChange, filterOptions, 
               onChange={(e) => updateFilter('region', e.target.value)}
               className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-white focus:border-transparent text-sm"
             >
-              <option value="all">All Regions</option>
+              <option value="all">Select Region</option>
               {filterOptions.regions.map((region) => (
                 <option key={region} value={region}>
                   {region}
@@ -175,7 +175,7 @@ export default function FilterSidebar({ filters, onFilterChange, filterOptions, 
               onChange={(e) => updateFilter('conversionType', e.target.value)}
               className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-white focus:border-transparent text-sm"
             >
-              <option value="all">All Conversion Types</option>
+              <option value="all">Select Conversion Type</option>
               {filterOptions.conversionTypes.map((type) => (
                 <option key={type} value={type}>
                   {type}
@@ -191,7 +191,7 @@ export default function FilterSidebar({ filters, onFilterChange, filterOptions, 
               onChange={(e) => updateFilter('bxType', e.target.value)}
               className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-white focus:border-transparent text-sm"
             >
-              <option value="all">All Bx Types</option>
+              <option value="all">Select Bx Type</option>
               {filterOptions.bxTypes.map((type) => (
                 <option key={type} value={type}>
                   {type}
@@ -207,7 +207,7 @@ export default function FilterSidebar({ filters, onFilterChange, filterOptions, 
               onChange={(e) => updateFilter('centerName', e.target.value)}
               className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-white focus:border-transparent text-sm"
             >
-              <option value="all">All Centres</option>
+              <option value="all">Select Centre</option>
               {filterOptions.centerNames.map((center) => (
                 <option key={center} value={center}>
                   {center}
@@ -223,7 +223,7 @@ export default function FilterSidebar({ filters, onFilterChange, filterOptions, 
               onChange={(e) => updateFilter('rh', e.target.value)}
               className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-white focus:border-transparent text-sm"
             >
-              <option value="all">All RH</option>
+              <option value="all">Select RH</option>
               {filterOptions.rhs.map((rh) => (
                 <option key={rh} value={rh}>
                   {rh}
@@ -239,7 +239,7 @@ export default function FilterSidebar({ filters, onFilterChange, filterOptions, 
               onChange={(e) => updateFilter('platform', e.target.value)}
               className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-white focus:border-transparent text-sm"
             >
-              <option value="all">All Campaigns</option>
+              <option value="all">Select Campaign</option>
               {filterOptions.platforms.map((platform) => (
                 <option key={platform} value={platform}>
                   {platform}
