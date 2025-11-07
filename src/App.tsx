@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Navigation from './components/Navigation';
 import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
+import Setup from './pages/Setup';
 import Dashboard from './pages/Dashboard';
 import ActiveCampaigns from './pages/ActiveCampaigns';
 import CenterWiseData from './pages/CenterWiseData';
@@ -19,6 +20,7 @@ function AppRoutes() {
       {user && <Navigation />}
       <Routes>
         <Route path="/login" element={user ? <Navigate to="/" replace /> : <Login />} />
+        <Route path="/setup" element={<Setup />} />
         <Route
           path="/"
           element={
