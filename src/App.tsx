@@ -13,6 +13,7 @@ import Chat from './pages/Chat';
 import UserActivity from './pages/UserActivity';
 import UserAccess from './pages/UserAccess';
 import UserManagement from './pages/UserManagement';
+import UserDetails from './pages/UserDetails';
 import Tools from './pages/Tools';
 import Admin from './pages/Admin';
 
@@ -99,6 +100,14 @@ function AppRoutes() {
           element={
             <ProtectedRoute requireAdmin>
               <UserManagement />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user-details"
+          element={
+            <ProtectedRoute requireAdmin>
+              <UserDetails />
             </ProtectedRoute>
           }
         />

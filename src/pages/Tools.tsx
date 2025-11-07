@@ -8,7 +8,7 @@ interface CalculatorResult {
 }
 
 export default function Tools() {
-  const [activeTab, setActiveTab] = useState('roi');
+  const [activeTab, setActiveTab] = useState('calculator');
 
   const [roiInputs, setRoiInputs] = useState({ revenue: '', cost: '' });
   const [roiResult, setRoiResult] = useState<CalculatorResult[]>([]);
@@ -24,6 +24,11 @@ export default function Tools() {
 
   const [cpaInputs, setCpaInputs] = useState({ cost: '', conversions: '' });
   const [cpaResult, setCpaResult] = useState<CalculatorResult[]>([]);
+
+  const [calcDisplay, setCalcDisplay] = useState('0');
+  const [calcPrevValue, setCalcPrevValue] = useState<number | null>(null);
+  const [calcOperation, setCalcOperation] = useState<string | null>(null);
+  const [calcNewNumber, setCalcNewNumber] = useState(true);
 
   const calculateROI = () => {
     const revenue = parseFloat(roiInputs.revenue);
@@ -127,7 +132,73 @@ export default function Tools() {
     ]);
   };
 
+  const handleCalcNumber = (num: string) => {
+    if (calcNewNumber) {
+      setCalcDisplay(num);
+      setCalcNewNumber(false);
+    } else {
+      setCalcDisplay(calcDisplay === '0' ? num : calcDisplay + num);
+    }
+  };
+
+  const handleCalcOperation = (op: string) => {
+    const currentValue = parseFloat(calcDisplay);
+
+    if (calcPrevValue !== null && calcOperation && !calcNewNumber) {
+      const result = performCalculation(calcPrevValue, currentValue, calcOperation);
+      setCalcDisplay(String(result));
+      setCalcPrevValue(result);
+    } else {
+      setCalcPrevValue(currentValue);
+    }
+
+    setCalcOperation(op);
+    setCalcNewNumber(true);
+  };
+
+  const performCalculation = (a: number, b: number, op: string): number => {
+    switch (op) {
+      case '+': return a + b;
+      case '-': return a - b;
+      case '×': return a * b;
+      case '÷': return b !== 0 ? a / b : 0;
+      default: return b;
+    }
+  };
+
+  const handleCalcEquals = () => {
+    if (calcPrevValue !== null && calcOperation) {
+      const currentValue = parseFloat(calcDisplay);
+      const result = performCalculation(calcPrevValue, currentValue, calcOperation);
+      setCalcDisplay(String(result));
+      setCalcPrevValue(null);
+      setCalcOperation(null);
+      setCalcNewNumber(true);
+    }
+  };
+
+  const handleCalcClear = () => {
+    setCalcDisplay('0');
+    setCalcPrevValue(null);
+    setCalcOperation(null);
+    setCalcNewNumber(true);
+  };
+
+  const handleCalcDecimal = () => {
+    if (!calcDisplay.includes('.')) {
+      setCalcDisplay(calcDisplay + '.');
+      setCalcNewNumber(false);
+    }
+  };
+
   const tools = [
+    {
+      id: 'calculator',
+      name: 'General Calculator',
+      icon: Calculator,
+      description: 'Basic calculator for quick calculations',
+      color: 'bg-slate-100 text-slate-600',
+    },
     {
       id: 'roi',
       name: 'ROI Calculator',
@@ -147,7 +218,7 @@ export default function Tools() {
       name: 'CPC Calculator',
       icon: DollarSign,
       description: 'Calculate Cost Per Click for your campaigns',
-      color: 'bg-purple-100 text-purple-600',
+      color: 'bg-amber-100 text-amber-600',
     },
     {
       id: 'conversion',
@@ -167,6 +238,118 @@ export default function Tools() {
 
   const renderCalculator = () => {
     switch (activeTab) {
+      case 'calculator':
+        return (
+          <div className="space-y-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-3 bg-slate-100 rounded-lg">
+                <Calculator className="w-6 h-6 text-slate-600" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-gray-900">General Calculator</h3>
+                <p className="text-sm text-gray-600">Basic calculator for quick calculations</p>
+              </div>
+            </div>
+
+            <div className="max-w-sm mx-auto">
+              <div className="bg-slate-900 rounded-t-2xl p-6 shadow-xl">
+                <div className="bg-slate-800 rounded-lg p-4 mb-4">
+                  <div className="text-right">
+                    <div className="text-slate-400 text-sm h-6 overflow-hidden">
+                      {calcOperation && calcPrevValue !== null ? `${calcPrevValue} ${calcOperation}` : ''}
+                    </div>
+                    <div className="text-white text-4xl font-light mt-2 overflow-auto">
+                      {calcDisplay}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-4 gap-3">
+                  <button
+                    onClick={handleCalcClear}
+                    className="col-span-2 bg-slate-700 hover:bg-slate-600 text-white rounded-xl py-4 font-semibold transition-colors"
+                  >
+                    Clear
+                  </button>
+                  <button
+                    onClick={() => handleCalcOperation('÷')}
+                    className="bg-amber-600 hover:bg-amber-500 text-white rounded-xl py-4 font-semibold text-2xl transition-colors"
+                  >
+                    ÷
+                  </button>
+                  <button
+                    onClick={() => handleCalcOperation('×')}
+                    className="bg-amber-600 hover:bg-amber-500 text-white rounded-xl py-4 font-semibold text-2xl transition-colors"
+                  >
+                    ×
+                  </button>
+
+                  {['7', '8', '9'].map((num) => (
+                    <button
+                      key={num}
+                      onClick={() => handleCalcNumber(num)}
+                      className="bg-slate-700 hover:bg-slate-600 text-white rounded-xl py-4 font-semibold text-xl transition-colors"
+                    >
+                      {num}
+                    </button>
+                  ))}
+                  <button
+                    onClick={() => handleCalcOperation('-')}
+                    className="bg-amber-600 hover:bg-amber-500 text-white rounded-xl py-4 font-semibold text-2xl transition-colors"
+                  >
+                    −
+                  </button>
+
+                  {['4', '5', '6'].map((num) => (
+                    <button
+                      key={num}
+                      onClick={() => handleCalcNumber(num)}
+                      className="bg-slate-700 hover:bg-slate-600 text-white rounded-xl py-4 font-semibold text-xl transition-colors"
+                    >
+                      {num}
+                    </button>
+                  ))}
+                  <button
+                    onClick={() => handleCalcOperation('+')}
+                    className="bg-amber-600 hover:bg-amber-500 text-white rounded-xl py-4 font-semibold text-2xl transition-colors"
+                  >
+                    +
+                  </button>
+
+                  {['1', '2', '3'].map((num) => (
+                    <button
+                      key={num}
+                      onClick={() => handleCalcNumber(num)}
+                      className="bg-slate-700 hover:bg-slate-600 text-white rounded-xl py-4 font-semibold text-xl transition-colors"
+                    >
+                      {num}
+                    </button>
+                  ))}
+                  <button
+                    onClick={handleCalcEquals}
+                    className="bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl py-4 font-semibold text-2xl row-span-2 transition-colors"
+                  >
+                    =
+                  </button>
+
+                  <button
+                    onClick={() => handleCalcNumber('0')}
+                    className="col-span-2 bg-slate-700 hover:bg-slate-600 text-white rounded-xl py-4 font-semibold text-xl transition-colors"
+                  >
+                    0
+                  </button>
+                  <button
+                    onClick={handleCalcDecimal}
+                    className="bg-slate-700 hover:bg-slate-600 text-white rounded-xl py-4 font-semibold text-xl transition-colors"
+                  >
+                    .
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
       case 'roi':
         return (
           <div className="space-y-6">

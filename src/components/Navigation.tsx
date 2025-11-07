@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Target, MessageSquare, Building2, Map, Activity, Calculator, Shield, LogOut, Users, Menu, X, ChevronDown, MoreHorizontal } from 'lucide-react';
+import { LayoutDashboard, Target, MessageSquare, Building2, Map, Activity, Calculator, Shield, LogOut, Users, Menu, X, ChevronDown, MoreHorizontal, UserCog } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useState, useRef, useEffect } from 'react';
 
@@ -76,6 +76,11 @@ export default function Navigation() {
         path: '/user-management',
         label: 'User Management',
         icon: Users,
+      },
+      {
+        path: '/user-details',
+        label: 'User Details',
+        icon: UserCog,
       }
     );
   }
