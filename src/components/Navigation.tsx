@@ -19,7 +19,7 @@ export default function Navigation() {
     },
     {
       path: '/center-wise',
-      label: 'Center-wise Data',
+      label: 'Center-wise',
       icon: Building2,
     },
     {
