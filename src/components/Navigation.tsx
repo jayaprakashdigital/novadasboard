@@ -1,18 +1,31 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Target, MessageSquare, Building2, Map, Activity, Calculator, Shield, LogOut, Users, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Target, MessageSquare, Building2, Map, Activity, Calculator, Shield, LogOut, Users, Menu, X, ChevronDown, MoreHorizontal } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 export default function Navigation() {
   const location = useLocation();
   const { profile, signOut } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [moreMenuOpen, setMoreMenuOpen] = useState(false);
+  const moreMenuRef = useRef<HTMLDivElement>(null);
 
   const isActive = (path: string) => location.pathname === path;
 
   const handleSignOut = async () => {
     await signOut();
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (moreMenuRef.current && !moreMenuRef.current.contains(event.target as Node)) {
+        setMoreMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const navItems = [
     {
@@ -63,26 +76,33 @@ export default function Navigation() {
         path: '/user-management',
         label: 'User Management',
         icon: Users,
-      },
-      {
-        path: '/admin',
-        label: 'Admin',
-        icon: Shield,
       }
     );
   }
 
-  return (
-    <nav className="bg-white border-b border-gray-200 fixed top-0 left-0 right-0 z-50 shadow-md">
-      <div className="px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center gap-3">
-            <img src="/NOVA IVF Logo.png" alt="Nova IVF" className="h-10 w-auto" />
-            <span className="text-xl font-bold text-gray-900">JP Dashboard</span>
-          </div>
+  const primaryNavItems = navItems.slice(0, 3);
+  const moreNavItems = navItems.slice(3);
 
-          <div className="hidden lg:flex items-center gap-2">
-            {navItems.slice(0, 4).map((item) => {
+  return (
+    <nav className="bg-gradient-to-r from-white to-gray-50 border-b border-gray-200 fixed top-0 left-0 right-0 z-50 shadow-sm">
+      <div className="px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <Link to="/" className="flex items-center gap-3 group">
+            <img
+              src="/NOVA IVF Logo.png"
+              alt="Nova IVF"
+              className="h-10 sm:h-12 w-auto transition-transform group-hover:scale-105"
+            />
+            <div className="hidden sm:block">
+              <div className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">
+                JP Dashboard
+              </div>
+              <div className="text-xs text-gray-500 -mt-1">Marketing Analytics</div>
+            </div>
+          </Link>
+
+          <div className="hidden lg:flex items-center gap-1 xl:gap-2">
+            {primaryNavItems.map((item) => {
               const Icon = item.icon;
               const active = isActive(item.path);
 
@@ -90,42 +110,91 @@ export default function Navigation() {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-all ${
+                  className={`flex items-center gap-2 px-3 xl:px-4 py-2 rounded-lg font-medium transition-all ${
                     active
-                      ? 'bg-primary text-white shadow-md'
-                      : 'text-gray-700 hover:bg-gray-100'
+                      ? 'bg-primary text-white shadow-lg shadow-primary/30 scale-105'
+                      : 'text-gray-700 hover:bg-white hover:shadow-md'
                   }`}
                 >
-                  <Icon className="w-5 h-5" />
-                  <span className="text-sm">{item.label}</span>
+                  <Icon className="w-5 h-5 flex-shrink-0" />
+                  <span className="text-sm whitespace-nowrap">{item.label}</span>
                 </Link>
               );
             })}
 
-            <div className="flex items-center gap-2 ml-4">
-              <div className="w-px h-8 bg-gray-300"></div>
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-semibold text-sm">
+            {moreNavItems.length > 0 && (
+              <div className="relative" ref={moreMenuRef}>
+                <button
+                  onClick={() => setMoreMenuOpen(!moreMenuOpen)}
+                  className={`flex items-center gap-2 px-3 xl:px-4 py-2 rounded-lg font-medium transition-all ${
+                    moreNavItems.some(item => isActive(item.path))
+                      ? 'bg-primary text-white shadow-lg shadow-primary/30'
+                      : 'text-gray-700 hover:bg-white hover:shadow-md'
+                  }`}
+                >
+                  <MoreHorizontal className="w-5 h-5" />
+                  <span className="text-sm">More</span>
+                  <ChevronDown className={`w-4 h-4 transition-transform ${moreMenuOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                {moreMenuOpen && (
+                  <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50">
+                    {moreNavItems.map((item) => {
+                      const Icon = item.icon;
+                      const active = isActive(item.path);
+
+                      return (
+                        <Link
+                          key={item.path}
+                          to={item.path}
+                          onClick={() => setMoreMenuOpen(false)}
+                          className={`flex items-center gap-3 px-4 py-2.5 font-medium transition-all ${
+                            active
+                              ? 'bg-primary/10 text-primary border-l-4 border-primary'
+                              : 'text-gray-700 hover:bg-gray-50'
+                          }`}
+                        >
+                          <Icon className="w-5 h-5" />
+                          <span className="text-sm">{item.label}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div className="flex items-center gap-2 ml-2 xl:ml-4 pl-2 xl:pl-4 border-l border-gray-300">
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg shadow-sm">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary-dark text-white flex items-center justify-center font-bold text-sm shadow-md">
                   {profile?.full_name?.charAt(0).toUpperCase() || 'U'}
                 </div>
-                <button
-                  onClick={handleSignOut}
-                  className="p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-all"
-                  title="Logout"
-                >
-                  <LogOut className="w-5 h-5" />
-                </button>
+                <div className="hidden xl:block">
+                  <div className="text-sm font-medium text-gray-900">
+                    {profile?.full_name || 'User'}
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    {profile?.access_level === 'admin' ? 'Administrator' : 'User'}
+                  </div>
+                </div>
               </div>
+              <button
+                onClick={handleSignOut}
+                className="p-2 rounded-lg text-gray-700 hover:bg-red-50 hover:text-red-600 transition-all"
+                title="Logout"
+              >
+                <LogOut className="w-5 h-5" />
+              </button>
             </div>
           </div>
 
-          <div className="lg:hidden flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-semibold text-sm">
+          <div className="lg:hidden flex items-center gap-2 sm:gap-3">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary-dark text-white flex items-center justify-center font-bold text-sm shadow-md">
               {profile?.full_name?.charAt(0).toUpperCase() || 'U'}
             </div>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-all"
+              className="p-2 rounded-lg text-gray-700 hover:bg-white hover:shadow-md transition-all"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -134,38 +203,62 @@ export default function Navigation() {
       </div>
 
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-x-0 top-16 bg-white border-b border-gray-200 shadow-lg z-40">
-          <div className="px-4 py-4 space-y-1">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const active = isActive(item.path);
+        <div className="lg:hidden fixed inset-x-0 top-16 bg-white border-b border-gray-200 shadow-xl z-40 max-h-[calc(100vh-4rem)] overflow-y-auto">
+          <div className="px-4 py-4">
+            <div className="mb-4 p-4 bg-gradient-to-r from-primary/10 to-primary-dark/10 rounded-lg border border-primary/20">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary-dark text-white flex items-center justify-center font-bold text-lg shadow-md">
+                  {profile?.full_name?.charAt(0).toUpperCase() || 'U'}
+                </div>
+                <div>
+                  <div className="text-base font-semibold text-gray-900">
+                    {profile?.full_name || 'User'}
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    {profile?.email}
+                  </div>
+                  <div className="text-xs text-primary font-medium mt-0.5">
+                    {profile?.access_level === 'admin' ? 'Administrator' : 'User'}
+                  </div>
+                </div>
+              </div>
+            </div>
 
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all ${
-                    active
-                      ? 'bg-primary text-white'
-                      : 'text-gray-700 hover:bg-gray-100'
-                  }`}
-                >
-                  <Icon className="w-5 h-5" />
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
-            <button
-              onClick={() => {
-                handleSignOut();
-                setMobileMenuOpen(false);
-              }}
-              className="w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium text-gray-700 hover:bg-gray-100 transition-all"
-            >
-              <LogOut className="w-5 h-5" />
-              <span>Logout</span>
-            </button>
+            <div className="space-y-1">
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const active = isActive(item.path);
+
+                return (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all ${
+                      active
+                        ? 'bg-primary text-white shadow-lg'
+                        : 'text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
+                    <Icon className="w-5 h-5" />
+                    <span>{item.label}</span>
+                  </Link>
+                );
+              })}
+            </div>
+
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <button
+                onClick={() => {
+                  handleSignOut();
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium text-red-600 hover:bg-red-50 transition-all"
+              >
+                <LogOut className="w-5 h-5" />
+                <span>Logout</span>
+              </button>
+            </div>
           </div>
         </div>
       )}
