@@ -8,6 +8,7 @@ import {
   Map,
   MessageSquare,
   Activity,
+  Calculator,
   Shield,
   Users,
   ChevronRight,
@@ -55,6 +56,11 @@ export default function Sidebar() {
       path: '/activity',
       label: 'User Activity',
       icon: Activity,
+    },
+    {
+      path: '/tools',
+      label: 'Marketing Tools',
+      icon: Calculator,
     },
   ];
 
