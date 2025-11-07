@@ -36,11 +36,6 @@ export default function Sidebar() {
       icon: LayoutDashboard,
     },
     {
-      path: '/campaigns',
-      label: 'Active Campaigns',
-      icon: Target,
-    },
-    {
       path: '/center-wise',
       label: 'Center-wise',
       icon: Building2,
@@ -79,6 +74,11 @@ export default function Sidebar() {
       path: '/profile',
       label: 'Profile',
       icon: UserCircle,
+    },
+    {
+      path: '/campaigns',
+      label: 'Data',
+      icon: Target,
     },
   ];
 
