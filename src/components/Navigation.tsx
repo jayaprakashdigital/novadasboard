@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Target, BarChart3 } from 'lucide-react';
+import { LayoutDashboard, Target, BarChart3, MessageSquare, Building2, Map } from 'lucide-react';
 
 export default function Navigation() {
   const location = useLocation();
@@ -16,6 +16,21 @@ export default function Navigation() {
       path: '/campaigns',
       label: 'Active Campaigns',
       icon: Target,
+    },
+    {
+      path: '/center-wise',
+      label: 'Center-wise Data',
+      icon: Building2,
+    },
+    {
+      path: '/mapping',
+      label: 'Mapping',
+      icon: Map,
+    },
+    {
+      path: '/chat',
+      label: 'Chat',
+      icon: MessageSquare,
     },
   ];
 

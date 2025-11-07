@@ -10,7 +10,6 @@ import {
 } from 'lucide-react';
 import { supabase, Campaign, DashboardSummary } from '../lib/supabase';
 import MetricCard from '../components/MetricCard';
-import CampaignTable from '../components/CampaignTable';
 import PerformanceChart from '../components/PerformanceChart';
 import FilterSidebar, { Filters } from '../components/FilterSidebar';
 
@@ -350,8 +349,6 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-
-          <CampaignTable campaigns={campaigns} />
         </div>
       </div>
     </>
