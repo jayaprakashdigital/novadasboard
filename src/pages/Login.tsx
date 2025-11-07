@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogIn, Heart } from 'lucide-react';
+import { LogIn } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function Login() {
@@ -30,11 +30,9 @@ export default function Login() {
     <div className="min-h-screen bg-gradient-to-br from-primary-light via-white to-primary-light flex items-center justify-center px-4">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-3 mb-4">
-            <div className="bg-primary p-3 rounded-full shadow-lg">
-              <Heart className="w-8 h-8 text-white" fill="white" />
-            </div>
-            <span className="text-3xl font-bold text-primary">Nova IVF MarketingHub</span>
+          <div className="flex flex-col items-center gap-4 mb-4">
+            <img src="/STALK LOGO.png" alt="Nova IVF" className="h-20 w-auto" />
+            <span className="text-2xl font-bold text-primary">MarketingHub</span>
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-2">Welcome Back</h2>
           <p className="text-gray-600">Sign in to access your dashboard</p>

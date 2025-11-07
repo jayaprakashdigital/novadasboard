@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Target, Heart, MessageSquare, Building2, Map, Activity, Shield, LogOut } from 'lucide-react';
+import { LayoutDashboard, Target, MessageSquare, Building2, Map, Activity, Shield, LogOut } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function Navigation() {
@@ -58,10 +58,8 @@ export default function Navigation() {
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-3">
-            <div className="bg-primary p-2 rounded-full">
-              <Heart className="w-6 h-6 text-white" fill="white" />
-            </div>
-            <span className="text-xl font-bold text-primary">Nova IVF MarketingHub</span>
+            <img src="/STALK LOGO.png" alt="Nova IVF" className="h-10 w-auto" />
+            <span className="text-xl font-bold text-primary">MarketingHub</span>
           </div>
 
           <div className="flex items-center gap-2">
