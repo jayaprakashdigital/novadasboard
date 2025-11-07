@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Navigation from './components/Navigation';
+import Sidebar from './components/Sidebar';
 import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
 import Setup from './pages/Setup';
@@ -19,7 +20,12 @@ function AppRoutes() {
 
   return (
     <div>
-      {user && <Navigation />}
+      {user && (
+        <>
+          <Navigation />
+          <Sidebar />
+        </>
+      )}
       <Routes>
         <Route path="/login" element={user ? <Navigate to="/" replace /> : <Login />} />
         <Route path="/setup" element={<Setup />} />
