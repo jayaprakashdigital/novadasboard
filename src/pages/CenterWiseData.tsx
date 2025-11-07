@@ -141,7 +141,7 @@ export default function CenterWiseData() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 ml-64 pt-16 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-gray-600">Loading center data...</p>
         </div>
       </div>
@@ -174,7 +174,7 @@ export default function CenterWiseData() {
                         {month}
                       </th>
                     ))}
-                    <th className="px-6 py-4 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider bg-indigo-50">
+                    <th className="px-6 py-4 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider bg-primary-light">
                       Grand Total
                     </th>
                   </tr>
@@ -189,14 +189,14 @@ export default function CenterWiseData() {
 
                     return (
                       <>
-                        <tr key={city} className="bg-indigo-50 font-semibold hover:bg-indigo-100 transition-colors">
+                        <tr key={city} className="bg-primary-light font-semibold hover:bg-pink-100 transition-colors">
                           <td className="px-6 py-4 text-sm text-gray-900">{city}</td>
                           {months.map((month) => (
                             <td key={month} className="px-4 py-4 text-sm text-center text-gray-900">
                               {cityMonthTotals[month] || ''}
                             </td>
                           ))}
-                          <td className="px-6 py-4 text-sm text-center font-bold text-indigo-900 bg-indigo-100">
+                          <td className="px-6 py-4 text-sm text-center font-bold text-primary bg-pink-100">
                             {cityTotal}
                           </td>
                         </tr>

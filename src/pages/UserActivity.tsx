@@ -80,7 +80,7 @@ export default function UserActivity() {
       case 'delete':
         return 'bg-red-100 text-red-800 border-red-200';
       default:
-        return 'bg-indigo-100 text-indigo-800 border-indigo-200';
+        return 'bg-pink-100 text-primary border-pink-200';
     }
   };
 
@@ -88,7 +88,7 @@ export default function UserActivity() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 pt-16 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-gray-600">Loading activity logs...</p>
         </div>
       </div>
@@ -100,7 +100,7 @@ export default function UserActivity() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
-            <Activity className="w-8 h-8 text-indigo-600" />
+            <Activity className="w-8 h-8 text-primary" />
             <h1 className="text-4xl font-bold text-gray-900">User Activity Log</h1>
           </div>
           <p className="text-gray-600">

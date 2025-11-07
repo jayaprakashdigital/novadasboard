@@ -64,8 +64,8 @@ export default function Chat() {
                 <div
                   className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
                     message.sender === 'user'
-                      ? 'bg-blue-600'
-                      : 'bg-gradient-to-br from-indigo-600 to-indigo-700'
+                      ? 'bg-primary'
+                      : 'bg-gradient-to-br from-primary to-primary-dark'
                   }`}
                 >
                   {message.sender === 'user' ? (
@@ -82,7 +82,7 @@ export default function Chat() {
                   <div
                     className={`px-4 py-3 rounded-2xl ${
                       message.sender === 'user'
-                        ? 'bg-blue-600 text-white'
+                        ? 'bg-primary text-white'
                         : 'bg-gray-100 text-gray-900'
                     }`}
                   >
@@ -106,12 +106,12 @@ export default function Chat() {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Type your message here..."
-                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
               />
               <button
                 type="submit"
                 disabled={!inputValue.trim()}
-                className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 font-medium"
+                className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 font-medium"
               >
                 <Send className="w-4 h-4" />
                 Send

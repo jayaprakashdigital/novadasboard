@@ -229,7 +229,7 @@ export default function Dashboard() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
           <p className="text-gray-600 font-medium">Loading dashboard...</p>
         </div>
       </div>
@@ -307,8 +307,8 @@ export default function Dashboard() {
           <div className="space-y-6">
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
               <div className="flex items-center gap-3 mb-4">
-                <div className="bg-blue-50 p-3 rounded-lg">
-                  <Target className="w-6 h-6 text-blue-600" />
+                <div className="bg-primary-light p-3 rounded-lg">
+                  <Target className="w-6 h-6 text-primary" />
                 </div>
                 <div>
                   <h3 className="text-sm font-medium text-gray-600">Conversion Rate</h3>
@@ -319,7 +319,7 @@ export default function Dashboard() {
               </div>
               <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"
+                  className="h-full bg-gradient-to-r from-primary to-primary-dark rounded-full"
                   style={{ width: `${metrics ? Math.min(((metrics.totalConversions / metrics.totalClicks) * 100), 100) : 0}%` }}
                 />
               </div>
@@ -342,7 +342,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl shadow-sm p-6 text-white">
+            <div className="bg-gradient-to-br from-primary to-primary-dark rounded-xl shadow-sm p-6 text-white">
               <h3 className="text-sm font-semibold mb-2 opacity-90">Active Campaigns</h3>
               <p className="text-4xl font-bold mb-1">{campaigns.filter(c => c.status === 'active').length}</p>
               <p className="text-sm opacity-80">out of {campaigns.length} total</p>

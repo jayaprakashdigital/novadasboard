@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Target, BarChart3, MessageSquare, Building2, Map, Activity, Shield, LogOut } from 'lucide-react';
+import { LayoutDashboard, Target, Heart, MessageSquare, Building2, Map, Activity, Shield, LogOut } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function Navigation() {
@@ -54,14 +54,14 @@ export default function Navigation() {
   }
 
   return (
-    <nav className="bg-gradient-to-r from-indigo-900 to-indigo-800 border-b border-indigo-700 fixed top-0 left-0 right-0 z-50 shadow-lg">
+    <nav className="bg-white border-b border-gray-200 fixed top-0 left-0 right-0 z-50 shadow-md">
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-3">
-            <div className="bg-white p-2 rounded-lg">
-              <BarChart3 className="w-6 h-6 text-indigo-900" />
+            <div className="bg-primary p-2 rounded-full">
+              <Heart className="w-6 h-6 text-white" fill="white" />
             </div>
-            <span className="text-xl font-bold text-white">MarketingHub</span>
+            <span className="text-xl font-bold text-primary">Nova IVF MarketingHub</span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -73,10 +73,10 @@ export default function Navigation() {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
                     active
-                      ? 'bg-white text-indigo-900'
-                      : 'text-indigo-100 hover:bg-indigo-800 hover:text-white'
+                      ? 'bg-primary text-white shadow-md'
+                      : 'text-gray-700 hover:bg-primary-light hover:text-primary'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -87,7 +87,7 @@ export default function Navigation() {
 
             <button
               onClick={handleSignOut}
-              className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-indigo-100 hover:bg-indigo-800 hover:text-white transition-colors ml-2"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-gray-700 hover:bg-primary-light hover:text-primary transition-all ml-2"
             >
               <LogOut className="w-4 h-4" />
               <span>Logout</span>

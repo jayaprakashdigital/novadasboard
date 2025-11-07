@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogIn, BarChart3 } from 'lucide-react';
+import { LogIn, Heart } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function Login() {
@@ -27,20 +27,20 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-primary-light via-white to-primary-light flex items-center justify-center px-4">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-3 mb-4">
-            <div className="bg-white p-3 rounded-xl shadow-lg">
-              <BarChart3 className="w-8 h-8 text-indigo-900" />
+            <div className="bg-primary p-3 rounded-full shadow-lg">
+              <Heart className="w-8 h-8 text-white" fill="white" />
             </div>
-            <span className="text-3xl font-bold text-white">MarketingHub</span>
+            <span className="text-3xl font-bold text-primary">Nova IVF MarketingHub</span>
           </div>
-          <h2 className="text-2xl font-bold text-white mb-2">Welcome Back</h2>
-          <p className="text-indigo-200">Sign in to access your dashboard</p>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Welcome Back</h2>
+          <p className="text-gray-600">Sign in to access your dashboard</p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
@@ -52,7 +52,7 @@ export default function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                 placeholder="you@example.com"
               />
             </div>
@@ -67,7 +67,7 @@ export default function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                 placeholder="Enter your password"
               />
             </div>
@@ -81,7 +81,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-indigo-700 hover:to-indigo-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg"
+              className="w-full bg-primary text-white py-3 px-4 rounded-lg font-semibold hover:bg-primary-dark transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg"
             >
               {loading ? (
                 <>
@@ -98,7 +98,7 @@ export default function Login() {
           </form>
         </div>
 
-        <p className="text-center text-indigo-200 text-sm mt-6">
+        <p className="text-center text-gray-600 text-sm mt-6">
           Contact your administrator for account access
         </p>
       </div>
