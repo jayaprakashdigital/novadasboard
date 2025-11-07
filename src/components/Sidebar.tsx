@@ -11,6 +11,7 @@ import {
   Calculator,
   Shield,
   Users,
+  UserCircle,
   ChevronRight,
   ChevronLeft,
 } from 'lucide-react';
@@ -61,6 +62,11 @@ export default function Sidebar() {
       path: '/tools',
       label: 'Marketing Tools',
       icon: Calculator,
+    },
+    {
+      path: '/profile',
+      label: 'Profile',
+      icon: UserCircle,
     },
   ];
 
