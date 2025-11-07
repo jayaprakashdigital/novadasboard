@@ -14,6 +14,7 @@ import UserActivity from './pages/UserActivity';
 import UserAccess from './pages/UserAccess';
 import UserManagement from './pages/UserManagement';
 import UserDetails from './pages/UserDetails';
+import UserProfile from './pages/UserProfile';
 import Tools from './pages/Tools';
 import Admin from './pages/Admin';
 
@@ -108,6 +109,14 @@ function AppRoutes() {
           element={
             <ProtectedRoute requireAdmin>
               <UserDetails />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <UserProfile />
             </ProtectedRoute>
           }
         />

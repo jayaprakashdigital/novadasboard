@@ -68,12 +68,14 @@ export default function DateRangeSelector({ onRangeChange, selectedRange }: Date
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors shadow-sm"
+        className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors shadow-sm w-full sm:w-auto justify-between sm:justify-start"
       >
-        <Calendar className="w-4 h-4 text-gray-600" />
-        <span className="font-medium text-gray-700">{selectedRange.label}</span>
+        <div className="flex items-center gap-2">
+          <Calendar className="w-4 h-4 text-gray-600 flex-shrink-0" />
+          <span className="font-medium text-gray-700 text-sm sm:text-base truncate">{selectedRange.label}</span>
+        </div>
         <svg
-          className={`w-4 h-4 text-gray-600 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-4 h-4 text-gray-600 transition-transform flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -91,14 +93,14 @@ export default function DateRangeSelector({ onRangeChange, selectedRange }: Date
               setShowCustom(false);
             }}
           />
-          <div className="absolute right-0 mt-2 w-72 bg-white rounded-lg shadow-xl border border-gray-200 z-20 overflow-hidden">
+          <div className="absolute left-0 sm:right-0 sm:left-auto mt-2 w-full sm:w-72 bg-white rounded-lg shadow-xl border border-gray-200 z-20 overflow-hidden max-w-sm">
             {!showCustom ? (
               <div className="py-2">
                 {presetRanges.map((range, index) => (
                   <button
                     key={index}
                     onClick={() => handlePresetSelect(range)}
-                    className={`w-full px-4 py-2.5 text-left hover:bg-gray-50 transition-colors ${
+                    className={`w-full px-4 py-2.5 text-left hover:bg-gray-50 transition-colors text-sm sm:text-base ${
                       selectedRange.label === range.label ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'
                     }`}
                   >
@@ -108,7 +110,7 @@ export default function DateRangeSelector({ onRangeChange, selectedRange }: Date
                 <div className="border-t border-gray-100 mt-2 pt-2">
                   <button
                     onClick={() => setShowCustom(true)}
-                    className="w-full px-4 py-2.5 text-left text-gray-700 hover:bg-gray-50 transition-colors"
+                    className="w-full px-4 py-2.5 text-left text-gray-700 hover:bg-gray-50 transition-colors text-sm sm:text-base"
                   >
                     Custom Range
                   </button>

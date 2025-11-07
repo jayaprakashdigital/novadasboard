@@ -164,7 +164,7 @@ export default function Navigation() {
             )}
 
             <div className="flex items-center gap-2 ml-2 xl:ml-4 pl-2 xl:pl-4 border-l border-gray-300">
-              <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg shadow-sm">
+              <Link to="/profile" className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg shadow-sm hover:shadow-md transition-all cursor-pointer">
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary-dark text-white flex items-center justify-center font-bold text-sm shadow-md">
                   {profile?.full_name?.charAt(0).toUpperCase() || 'U'}
                 </div>
@@ -176,7 +176,7 @@ export default function Navigation() {
                     {profile?.access_level === 'admin' ? 'Administrator' : 'User'}
                   </div>
                 </div>
-              </div>
+              </Link>
               <button
                 onClick={handleSignOut}
                 className="p-2 rounded-lg text-gray-700 hover:bg-red-50 hover:text-red-600 transition-all"
@@ -188,9 +188,9 @@ export default function Navigation() {
           </div>
 
           <div className="lg:hidden flex items-center gap-2 sm:gap-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary-dark text-white flex items-center justify-center font-bold text-sm shadow-md">
+            <Link to="/profile" className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary-dark text-white flex items-center justify-center font-bold text-sm shadow-md hover:shadow-lg transition-all">
               {profile?.full_name?.charAt(0).toUpperCase() || 'U'}
-            </div>
+            </Link>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 rounded-lg text-gray-700 hover:bg-white hover:shadow-md transition-all"
