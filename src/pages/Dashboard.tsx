@@ -35,16 +35,16 @@ export default function Dashboard() {
   const [filterOpen, setFilterOpen] = useState(false);
   const [filters, setFilters] = useState<Filters>({
     search: '',
-    platform: 'all',
+    platforms: [],
     status: 'all',
-    city: 'all',
-    region: 'all',
-    bxType: 'all',
-    trafficSource: 'all',
-    channel: 'all',
-    conversionType: 'all',
-    centerName: 'all',
-    rh: 'all',
+    cities: [],
+    regions: [],
+    bxTypes: [],
+    trafficSources: [],
+    channels: [],
+    conversionTypes: [],
+    centerNames: [],
+    rhs: [],
     dateRange: {
       startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
       endDate: new Date().toISOString().split('T')[0],
@@ -91,7 +91,7 @@ export default function Dashboard() {
         const uniqueCenterNames = [...new Set(campaignsRes.data.map((c) => c.center_name).filter(Boolean))] as string[];
         const uniqueRhs = [...new Set(campaignsRes.data.map((c) => c.rh).filter(Boolean))] as string[];
 
-        setFilterOptions({
+        const options = {
           platforms: uniquePlatforms,
           cities: uniqueCities,
           regions: uniqueRegions,
@@ -101,7 +101,21 @@ export default function Dashboard() {
           conversionTypes: uniqueConversionTypes,
           centerNames: uniqueCenterNames,
           rhs: uniqueRhs,
-        });
+        };
+        setFilterOptions(options);
+
+        setFilters(prev => ({
+          ...prev,
+          platforms: uniquePlatforms,
+          cities: uniqueCities,
+          regions: uniqueRegions,
+          bxTypes: uniqueBxTypes,
+          trafficSources: uniqueTrafficSources,
+          channels: uniqueChannels,
+          conversionTypes: uniqueConversionTypes,
+          centerNames: uniqueCenterNames,
+          rhs: uniqueRhs,
+        }));
       }
 
       if (summaryRes.data && summaryRes.data.length > 0) {
@@ -161,44 +175,36 @@ export default function Dashboard() {
       );
     }
 
-    if (filters.platform !== 'all') {
-      filtered = filtered.filter((campaign) => campaign.platform === filters.platform);
+    if (filters.platforms.length > 0 && filters.platforms.length < filterOptions.platforms.length) {
+      filtered = filtered.filter((campaign) => filters.platforms.includes(campaign.platform));
     }
 
-    if (filters.status !== 'all') {
-      filtered = filtered.filter((campaign) => campaign.status === filters.status);
+    if (filters.trafficSources.length > 0 && filters.trafficSources.length < filterOptions.trafficSources.length) {
+      filtered = filtered.filter((campaign) => campaign.traffic_source && filters.trafficSources.includes(campaign.traffic_source));
     }
 
-    if (filters.city !== 'all') {
-      filtered = filtered.filter((campaign) => campaign.city === filters.city);
+    if (filters.channels.length > 0 && filters.channels.length < filterOptions.channels.length) {
+      filtered = filtered.filter((campaign) => campaign.channel && filters.channels.includes(campaign.channel));
     }
 
-    if (filters.region !== 'all') {
-      filtered = filtered.filter((campaign) => campaign.region === filters.region);
+    if (filters.regions.length > 0 && filters.regions.length < filterOptions.regions.length) {
+      filtered = filtered.filter((campaign) => campaign.region && filters.regions.includes(campaign.region));
     }
 
-    if (filters.bxType !== 'all') {
-      filtered = filtered.filter((campaign) => campaign.bx_type === filters.bxType);
+    if (filters.conversionTypes.length > 0 && filters.conversionTypes.length < filterOptions.conversionTypes.length) {
+      filtered = filtered.filter((campaign) => campaign.conversion_type && filters.conversionTypes.includes(campaign.conversion_type));
     }
 
-    if (filters.trafficSource !== 'all') {
-      filtered = filtered.filter((campaign) => campaign.traffic_source === filters.trafficSource);
+    if (filters.bxTypes.length > 0 && filters.bxTypes.length < filterOptions.bxTypes.length) {
+      filtered = filtered.filter((campaign) => campaign.bx_type && filters.bxTypes.includes(campaign.bx_type));
     }
 
-    if (filters.channel !== 'all') {
-      filtered = filtered.filter((campaign) => campaign.channel === filters.channel);
+    if (filters.centerNames.length > 0 && filters.centerNames.length < filterOptions.centerNames.length) {
+      filtered = filtered.filter((campaign) => campaign.center_name && filters.centerNames.includes(campaign.center_name));
     }
 
-    if (filters.conversionType !== 'all') {
-      filtered = filtered.filter((campaign) => campaign.conversion_type === filters.conversionType);
-    }
-
-    if (filters.centerName !== 'all') {
-      filtered = filtered.filter((campaign) => campaign.center_name === filters.centerName);
-    }
-
-    if (filters.rh !== 'all') {
-      filtered = filtered.filter((campaign) => campaign.rh === filters.rh);
+    if (filters.rhs.length > 0 && filters.rhs.length < filterOptions.rhs.length) {
+      filtered = filtered.filter((campaign) => campaign.rh && filters.rhs.includes(campaign.rh));
     }
 
     setCampaigns(filtered);

@@ -103,11 +103,11 @@ export default function DateRangeSelector({ onRangeChange, selectedRange }: Date
     <>
       <button
         onClick={() => setShowModal(true)}
-        className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors shadow-sm w-full justify-between"
+        className="flex items-center gap-2 px-3 py-2.5 bg-white/95 border border-white/30 rounded-lg hover:bg-white transition-all shadow-sm w-full justify-between"
       >
         <div className="flex items-center gap-2">
           <Calendar className="w-4 h-4 text-gray-600 flex-shrink-0" />
-          <span className="font-medium text-gray-700 text-sm truncate">{selectedRange.label}</span>
+          <span className="font-medium text-gray-800 text-sm truncate">{selectedRange.label}</span>
         </div>
         <svg
           className={`w-4 h-4 text-gray-600 transition-transform flex-shrink-0 ${showModal ? 'rotate-180' : ''}`}
@@ -122,7 +122,7 @@ export default function DateRangeSelector({ onRangeChange, selectedRange }: Date
       {showModal && (
         <>
           <div
-            className="date-panel-backdrop fixed inset-0 bg-black bg-opacity-50 z-[999] animate-fadeIn"
+            className="date-panel-backdrop fixed inset-0 bg-[#A53758] bg-opacity-40 z-[999] animate-fadeIn backdrop-blur-sm"
             onClick={handleBackdropClick}
           />
           <div
@@ -130,8 +130,8 @@ export default function DateRangeSelector({ onRangeChange, selectedRange }: Date
             style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.15)' }}
           >
             <div className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-bold text-gray-900">Select Date Range</h3>
+              <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
+                <h3 className="text-lg font-bold text-[#A53758]">Select Date Range</h3>
                 <button
                   onClick={handleBackdropClick}
                   className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
@@ -148,7 +148,7 @@ export default function DateRangeSelector({ onRangeChange, selectedRange }: Date
                       onClick={() => handlePresetSelect(range)}
                       className={`w-full px-4 py-3 text-left rounded-lg transition-colors text-base min-h-[44px] ${
                         selectedRange.label === range.label
-                          ? 'bg-blue-50 text-blue-700 font-medium'
+                          ? 'bg-gradient-to-r from-[#A53758] to-[#8B2F4A] text-white font-semibold shadow-sm'
                           : 'text-gray-700 hover:bg-gray-50'
                       }`}
                     >
@@ -177,7 +177,7 @@ export default function DateRangeSelector({ onRangeChange, selectedRange }: Date
                       type="date"
                       value={customStart}
                       onChange={(e) => setCustomStart(e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[44px]"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base focus:ring-2 focus:ring-[#A53758] focus:border-transparent min-h-[44px]"
                     />
                   </div>
                   <div>
@@ -191,7 +191,7 @@ export default function DateRangeSelector({ onRangeChange, selectedRange }: Date
                       type="date"
                       value={customEnd}
                       onChange={(e) => setCustomEnd(e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[44px]"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base focus:ring-2 focus:ring-[#A53758] focus:border-transparent min-h-[44px]"
                     />
                   </div>
                   <div className="flex flex-col sm:flex-row gap-3 pt-2">
@@ -204,11 +204,7 @@ export default function DateRangeSelector({ onRangeChange, selectedRange }: Date
                     <button
                       onClick={handleCustomApply}
                       disabled={!customStart || !customEnd}
-                      className="flex-1 px-4 py-3 rounded-lg transition-colors text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
-                      style={{
-                        backgroundColor: customStart && customEnd ? '#7BA3E8' : '#7BA3E8',
-                        color: 'white'
-                      }}
+                      className="flex-1 px-4 py-3 rounded-lg transition-colors text-base font-semibold disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px] bg-gradient-to-r from-[#A53758] to-[#8B2F4A] text-white hover:shadow-md"
                     >
                       Apply
                     </button>
