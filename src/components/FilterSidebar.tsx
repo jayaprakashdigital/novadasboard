@@ -1,4 +1,5 @@
-import { X } from 'lucide-react';
+import { X, Filter } from 'lucide-react';
+import { useState } from 'react';
 import DateRangeSelector, { DateRange } from './DateRangeSelector';
 
 export interface Filters {
@@ -30,9 +31,11 @@ interface FilterSidebarProps {
     centerNames: string[];
     rhs: string[];
   };
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-export default function FilterSidebar({ filters, onFilterChange, filterOptions }: FilterSidebarProps) {
+export default function FilterSidebar({ filters, onFilterChange, filterOptions, isOpen, onClose }: FilterSidebarProps) {
   const updateFilter = (key: keyof Filters, value: string | DateRange) => {
     onFilterChange({ ...filters, [key]: value });
   };
@@ -65,19 +68,36 @@ export default function FilterSidebar({ filters, onFilterChange, filterOptions }
   }).length;
 
   return (
-    <div className="w-64 bg-gradient-to-b from-[#4A2C6D] to-[#3D1F5C] text-white h-screen fixed left-0 top-16 overflow-y-auto shadow-xl">
+    <>
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={onClose}
+        />
+      )}
+      <div className={`w-64 bg-gradient-to-b from-[#4A2C6D] to-[#3D1F5C] text-white fixed left-0 top-16 overflow-y-auto shadow-xl z-50 transition-transform duration-300 lg:translate-x-0 ${
+        isOpen ? 'translate-x-0' : '-translate-x-full'
+      } h-[calc(100vh-4rem)]`}>
       <div className="p-6">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-lg font-semibold">Filters</h2>
-          {activeFiltersCount > 0 && (
+          <div className="flex items-center gap-2">
+            {activeFiltersCount > 0 && (
+              <button
+                onClick={clearFilters}
+                className="flex items-center gap-1 text-xs text-purple-200 hover:text-white transition-colors"
+              >
+                <X className="w-3 h-3" />
+                Clear
+              </button>
+            )}
             <button
-              onClick={clearFilters}
-              className="flex items-center gap-1 text-xs text-purple-200 hover:text-white transition-colors"
+              onClick={onClose}
+              className="lg:hidden text-purple-200 hover:text-white transition-colors"
             >
-              <X className="w-3 h-3" />
-              Clear
+              <X className="w-5 h-5" />
             </button>
-          )}
+          </div>
         </div>
 
         <div className="space-y-4">
@@ -237,5 +257,6 @@ export default function FilterSidebar({ filters, onFilterChange, filterOptions }
         )}
       </div>
     </div>
+    </>
   );
 }

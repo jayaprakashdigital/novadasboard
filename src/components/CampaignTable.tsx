@@ -35,10 +35,11 @@ export default function CampaignTable({ campaigns }: CampaignTableProps) {
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-100">
-        <h2 className="text-lg font-semibold text-gray-900">Active Campaigns</h2>
+      <div className="px-4 sm:px-6 py-4 border-b border-gray-100">
+        <h2 className="text-base sm:text-lg font-semibold text-gray-900">Active Campaigns</h2>
       </div>
-      <div className="overflow-x-auto">
+
+      <div className="hidden lg:block overflow-x-auto">
         <table className="w-full">
           <thead className="bg-gray-50">
             <tr>
@@ -110,6 +111,66 @@ export default function CampaignTable({ campaigns }: CampaignTableProps) {
             })}
           </tbody>
         </table>
+      </div>
+
+      <div className="lg:hidden divide-y divide-gray-100">
+        {campaigns.map((campaign) => {
+          const progress = calculateProgress(campaign.spent, campaign.budget);
+          return (
+            <div key={campaign.id} className="p-4 hover:bg-gray-50 transition-colors">
+              <div className="flex items-start justify-between mb-3">
+                <div className="flex-1">
+                  <h3 className="text-sm font-medium text-gray-900 mb-1">{campaign.name}</h3>
+                  <div className="text-xs text-gray-500">
+                    {new Date(campaign.start_date).toLocaleDateString()}
+                    {campaign.end_date && ` - ${new Date(campaign.end_date).toLocaleDateString()}`}
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 mb-3">
+                <div>
+                  <span className="text-xs text-gray-500 block mb-1">Platform</span>
+                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${platformColors[campaign.platform] || 'bg-gray-100 text-gray-700'}`}>
+                    {campaign.platform}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-xs text-gray-500 block mb-1">Status</span>
+                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColors[campaign.status] || 'bg-gray-100 text-gray-700'}`}>
+                    {campaign.status}
+                  </span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 mb-3">
+                <div>
+                  <span className="text-xs text-gray-500 block mb-1">Budget</span>
+                  <span className="text-sm font-medium text-gray-900">{formatCurrency(campaign.budget)}</span>
+                </div>
+                <div>
+                  <span className="text-xs text-gray-500 block mb-1">Spent</span>
+                  <span className="text-sm font-medium text-gray-900">{formatCurrency(campaign.spent)}</span>
+                </div>
+              </div>
+
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs text-gray-500">Progress</span>
+                  <span className="text-xs font-medium text-gray-700">{progress.toFixed(0)}%</span>
+                </div>
+                <div className="bg-gray-200 rounded-full h-2 overflow-hidden">
+                  <div
+                    className={`h-full rounded-full transition-all ${
+                      progress >= 90 ? 'bg-red-500' : progress >= 70 ? 'bg-yellow-500' : 'bg-green-500'
+                    }`}
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

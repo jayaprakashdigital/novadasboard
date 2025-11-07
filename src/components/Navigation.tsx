@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Target, MessageSquare, Building2, Map, Activity, Shield, LogOut } from 'lucide-react';
+import { LayoutDashboard, Target, MessageSquare, Building2, Map, Activity, Shield, LogOut, Users } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function Navigation() {
@@ -46,11 +46,18 @@ export default function Navigation() {
   ];
 
   if (profile?.access_level === 'admin') {
-    navItems.push({
-      path: '/admin',
-      label: 'Admin',
-      icon: Shield,
-    });
+    navItems.push(
+      {
+        path: '/user-access',
+        label: 'User Access',
+        icon: Users,
+      },
+      {
+        path: '/admin',
+        label: 'Admin',
+        icon: Shield,
+      }
+    );
   }
 
   return (
@@ -58,11 +65,11 @@ export default function Navigation() {
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-3">
-            <img src="/STALK LOGO.png" alt="Nova IVF" className="h-10 w-auto" />
-            <span className="text-xl font-bold text-primary">MarketingHub</span>
+            <img src="/STALK LOGO.png" alt="Nova IVF" className="h-8 sm:h-10 w-auto" />
+            <span className="text-lg sm:text-xl font-bold text-primary">MarketingHub</span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="hidden lg:flex items-center gap-2">
             {navItems.map((item) => {
               const Icon = item.icon;
               const active = isActive(item.path);
@@ -89,6 +96,35 @@ export default function Navigation() {
             >
               <LogOut className="w-4 h-4" />
               <span>Logout</span>
+            </button>
+          </div>
+
+          <div className="lg:hidden flex items-center gap-2">
+            {navItems.slice(0, 3).map((item) => {
+              const Icon = item.icon;
+              const active = isActive(item.path);
+
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`p-2 rounded-lg transition-all ${
+                    active
+                      ? 'bg-primary text-white'
+                      : 'text-gray-700 hover:bg-primary-light'
+                  }`}
+                  title={item.label}
+                >
+                  <Icon className="w-5 h-5" />
+                </Link>
+              );
+            })}
+            <button
+              onClick={handleSignOut}
+              className="p-2 rounded-lg text-gray-700 hover:bg-primary-light transition-all"
+              title="Logout"
+            >
+              <LogOut className="w-5 h-5" />
             </button>
           </div>
         </div>

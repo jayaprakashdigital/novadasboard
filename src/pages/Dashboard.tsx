@@ -6,7 +6,8 @@ import {
   DollarSign,
   Target,
   BarChart3,
-  RefreshCw
+  RefreshCw,
+  Filter
 } from 'lucide-react';
 import { supabase, Campaign, DashboardSummary } from '../lib/supabase';
 import MetricCard from '../components/MetricCard';
@@ -30,6 +31,7 @@ export default function Dashboard() {
   const [summaryData, setSummaryData] = useState<DashboardSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [filterOpen, setFilterOpen] = useState(false);
   const [filters, setFilters] = useState<Filters>({
     search: '',
     platform: 'all',
@@ -244,26 +246,41 @@ export default function Dashboard() {
 
   return (
     <>
-      <FilterSidebar filters={filters} onFilterChange={setFilters} filterOptions={filterOptions} />
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 ml-64 pt-16">
+      <FilterSidebar
+        filters={filters}
+        onFilterChange={setFilters}
+        filterOptions={filterOptions}
+        isOpen={filterOpen}
+        onClose={() => setFilterOpen(false)}
+      />
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 lg:ml-64 pt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="mb-8 flex items-center justify-between">
+          <div className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <h1 className="text-4xl font-bold text-gray-900 mb-2">Marketing Dashboard</h1>
-              <p className="text-gray-600">Track and analyze your campaign performance</p>
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Marketing Dashboard</h1>
+              <p className="text-sm sm:text-base text-gray-600">Track and analyze your campaign performance</p>
             </div>
-            <button
-              onClick={handleRefresh}
-              disabled={refreshing}
-              className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
-            >
-              <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
-              <span className="font-medium text-gray-700">Refresh</span>
-            </button>
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              <button
+                onClick={() => setFilterOpen(!filterOpen)}
+                className="lg:hidden flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors flex-1 sm:flex-initial justify-center"
+              >
+                <Filter className="w-4 h-4" />
+                <span className="font-medium">Filters</span>
+              </button>
+              <button
+                onClick={handleRefresh}
+                disabled={refreshing}
+                className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 flex-1 sm:flex-initial justify-center"
+              >
+                <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
+                <span className="font-medium text-gray-700">Refresh</span>
+              </button>
+            </div>
           </div>
 
         {metrics && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
             <MetricCard
               title="Total Revenue"
               value={formatCurrency(metrics.totalRevenue)}

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Filter } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import FilterSidebar, { Filters } from '../components/FilterSidebar';
 
@@ -20,6 +21,7 @@ interface CenterSummary {
 export default function CenterWiseData() {
   const [centerData, setCenterData] = useState<CenterData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [filterOpen, setFilterOpen] = useState(false);
   const [filters, setFilters] = useState<Filters>({
     search: '',
     platform: 'all',
@@ -139,7 +141,7 @@ export default function CenterWiseData() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 ml-64 pt-16 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 lg:ml-64 pt-16 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-gray-600">Loading center data...</p>
@@ -150,12 +152,27 @@ export default function CenterWiseData() {
 
   return (
     <>
-      <FilterSidebar filters={filters} onFilterChange={setFilters} filterOptions={filterOptions} />
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 ml-64 pt-16">
+      <FilterSidebar
+        filters={filters}
+        onFilterChange={setFilters}
+        filterOptions={filterOptions}
+        isOpen={filterOpen}
+        onClose={() => setFilterOpen(false)}
+      />
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 lg:ml-64 pt-16">
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Center-wise Data</h1>
-            <p className="text-gray-600">Monthly performance metrics by center location</p>
+          <div className="mb-8 flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Center-wise Data</h1>
+              <p className="text-sm sm:text-base text-gray-600">Monthly performance metrics by center location</p>
+            </div>
+            <button
+              onClick={() => setFilterOpen(!filterOpen)}
+              className="lg:hidden flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+            >
+              <Filter className="w-4 h-4" />
+              <span className="font-medium">Filters</span>
+            </button>
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">

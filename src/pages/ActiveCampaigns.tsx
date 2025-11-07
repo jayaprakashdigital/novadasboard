@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { TrendingUp, TrendingDown } from 'lucide-react';
+import { TrendingUp, TrendingDown, Filter } from 'lucide-react';
 import { supabase, Campaign, CampaignMetric } from '../lib/supabase';
 import FilterSidebar, { Filters } from '../components/FilterSidebar';
 
@@ -20,6 +20,7 @@ export default function ActiveCampaigns() {
   const [campaigns, setCampaigns] = useState<CampaignWithMetrics[]>([]);
   const [filteredCampaigns, setFilteredCampaigns] = useState<CampaignWithMetrics[]>([]);
   const [loading, setLoading] = useState(true);
+  const [filterOpen, setFilterOpen] = useState(false);
   const [filters, setFilters] = useState<Filters>({
     search: '',
     platform: 'all',
@@ -231,12 +232,27 @@ export default function ActiveCampaigns() {
 
   return (
     <>
-      <FilterSidebar filters={filters} onFilterChange={setFilters} filterOptions={filterOptions} />
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 ml-64 pt-16">
+      <FilterSidebar
+        filters={filters}
+        onFilterChange={setFilters}
+        filterOptions={filterOptions}
+        isOpen={filterOpen}
+        onClose={() => setFilterOpen(false)}
+      />
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 lg:ml-64 pt-16">
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Active Campaigns</h1>
-            <p className="text-gray-600">Monitor and analyze your campaign performance</p>
+          <div className="mb-8 flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Active Campaigns</h1>
+              <p className="text-sm sm:text-base text-gray-600">Monitor and analyze your campaign performance</p>
+            </div>
+            <button
+              onClick={() => setFilterOpen(!filterOpen)}
+              className="lg:hidden flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+            >
+              <Filter className="w-4 h-4" />
+              <span className="font-medium">Filters</span>
+            </button>
           </div>
 
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
