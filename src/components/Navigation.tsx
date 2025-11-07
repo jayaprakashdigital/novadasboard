@@ -50,6 +50,11 @@ export default function Navigation() {
       {
         path: '/user-access',
         label: 'User Access',
+        icon: Shield,
+      },
+      {
+        path: '/user-management',
+        label: 'User Management',
         icon: Users,
       },
       {

@@ -13,6 +13,12 @@ export default {
           DEFAULT: '#A53758',
           dark: '#87143B',
         },
+        nova: {
+          maroon: '#A53758',
+          'maroon-dark': '#8B2F4A',
+          'maroon-light': '#C55174',
+          rose: '#F9DFDF',
+        },
       },
     },
   },

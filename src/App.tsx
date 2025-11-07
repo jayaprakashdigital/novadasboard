@@ -11,6 +11,7 @@ import Mapping from './pages/Mapping';
 import Chat from './pages/Chat';
 import UserActivity from './pages/UserActivity';
 import UserAccess from './pages/UserAccess';
+import UserManagement from './pages/UserManagement';
 import Admin from './pages/Admin';
 
 function AppRoutes() {
@@ -75,6 +76,14 @@ function AppRoutes() {
           element={
             <ProtectedRoute requireAdmin>
               <UserAccess />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user-management"
+          element={
+            <ProtectedRoute requireAdmin>
+              <UserManagement />
             </ProtectedRoute>
           }
         />
