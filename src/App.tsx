@@ -1,23 +1,90 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Navigation from './components/Navigation';
+import ProtectedRoute from './components/ProtectedRoute';
+import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import ActiveCampaigns from './pages/ActiveCampaigns';
 import CenterWiseData from './pages/CenterWiseData';
 import Mapping from './pages/Mapping';
 import Chat from './pages/Chat';
+import UserActivity from './pages/UserActivity';
+import Admin from './pages/Admin';
+
+function AppRoutes() {
+  const { user } = useAuth();
+
+  return (
+    <div>
+      {user && <Navigation />}
+      <Routes>
+        <Route path="/login" element={user ? <Navigate to="/" replace /> : <Login />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/campaigns"
+          element={
+            <ProtectedRoute>
+              <ActiveCampaigns />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/center-wise"
+          element={
+            <ProtectedRoute>
+              <CenterWiseData />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/mapping"
+          element={
+            <ProtectedRoute>
+              <Mapping />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/chat"
+          element={
+            <ProtectedRoute>
+              <Chat />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/activity"
+          element={
+            <ProtectedRoute>
+              <UserActivity />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute requireAdmin>
+              <Admin />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </div>
+  );
+}
 
 function App() {
   return (
-    <div>
-      <Navigation />
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/campaigns" element={<ActiveCampaigns />} />
-        <Route path="/center-wise" element={<CenterWiseData />} />
-        <Route path="/mapping" element={<Mapping />} />
-        <Route path="/chat" element={<Chat />} />
-      </Routes>
-    </div>
+    <AuthProvider>
+      <AppRoutes />
+    </AuthProvider>
   );
 }
 

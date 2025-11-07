@@ -1,10 +1,16 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Target, BarChart3, MessageSquare, Building2, Map } from 'lucide-react';
+import { LayoutDashboard, Target, BarChart3, MessageSquare, Building2, Map, Activity, Shield, LogOut } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function Navigation() {
   const location = useLocation();
+  const { profile, signOut } = useAuth();
 
   const isActive = (path: string) => location.pathname === path;
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   const navItems = [
     {
@@ -32,7 +38,20 @@ export default function Navigation() {
       label: 'Chat',
       icon: MessageSquare,
     },
+    {
+      path: '/activity',
+      label: 'Activity',
+      icon: Activity,
+    },
   ];
+
+  if (profile?.access_level === 'admin') {
+    navItems.push({
+      path: '/admin',
+      label: 'Admin',
+      icon: Shield,
+    });
+  }
 
   return (
     <nav className="bg-gradient-to-r from-indigo-900 to-indigo-800 border-b border-indigo-700 fixed top-0 left-0 right-0 z-50 shadow-lg">
@@ -65,6 +84,14 @@ export default function Navigation() {
                 </Link>
               );
             })}
+
+            <button
+              onClick={handleSignOut}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-indigo-100 hover:bg-indigo-800 hover:text-white transition-colors ml-2"
+            >
+              <LogOut className="w-4 h-4" />
+              <span>Logout</span>
+            </button>
           </div>
         </div>
       </div>
