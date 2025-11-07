@@ -45,8 +45,8 @@ export default function Chat() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 ml-64 pt-16">
-      <div className="h-[calc(100vh-4rem)] flex flex-col max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 pt-16">
+      <div className="h-[calc(100vh-4rem)] flex flex-col max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-6">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">Chat Assistant</h1>
           <p className="text-gray-600">Ask questions about your campaigns and get instant answers</p>
