@@ -24,16 +24,16 @@ export default function ActiveCampaigns() {
   const [filterOpen, setFilterOpen] = useState(false);
   const [filters, setFilters] = useState<Filters>({
     search: '',
-    platform: 'all',
+    platforms: [],
     status: 'all',
-    city: 'all',
-    region: 'all',
-    bxType: 'all',
-    trafficSource: 'all',
-    channel: 'all',
-    conversionType: 'all',
-    centerName: 'all',
-    rh: 'all',
+    cities: [],
+    regions: [],
+    bxTypes: [],
+    trafficSources: [],
+    channels: [],
+    conversionTypes: [],
+    centerNames: [],
+    rhs: [],
     dateRange: {
       startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
       endDate: new Date().toISOString().split('T')[0],
@@ -111,6 +111,20 @@ export default function ActiveCampaigns() {
           centerNames: uniqueCenterNames,
           rhs: uniqueRhs,
         });
+
+        // Initialize filters with all options selected on first load
+        setFilters((prevFilters) => ({
+          ...prevFilters,
+          platforms: prevFilters.platforms.length === 0 ? uniquePlatforms : prevFilters.platforms,
+          cities: prevFilters.cities.length === 0 ? uniqueCities : prevFilters.cities,
+          regions: prevFilters.regions.length === 0 ? uniqueRegions : prevFilters.regions,
+          bxTypes: prevFilters.bxTypes.length === 0 ? uniqueBxTypes : prevFilters.bxTypes,
+          trafficSources: prevFilters.trafficSources.length === 0 ? uniqueTrafficSources : prevFilters.trafficSources,
+          channels: prevFilters.channels.length === 0 ? uniqueChannels : prevFilters.channels,
+          conversionTypes: prevFilters.conversionTypes.length === 0 ? uniqueConversionTypes : prevFilters.conversionTypes,
+          centerNames: prevFilters.centerNames.length === 0 ? uniqueCenterNames : prevFilters.centerNames,
+          rhs: prevFilters.rhs.length === 0 ? uniqueRhs : prevFilters.rhs,
+        }));
       }
     } catch (error) {
       console.error('Error fetching campaigns:', error);
@@ -158,44 +172,44 @@ export default function ActiveCampaigns() {
       );
     }
 
-    if (filters.platform !== 'all') {
-      filtered = filtered.filter((campaign) => campaign.platform === filters.platform);
+    if (filters.platforms.length > 0) {
+      filtered = filtered.filter((campaign) => filters.platforms.includes(campaign.platform));
     }
 
     if (filters.status !== 'all') {
       filtered = filtered.filter((campaign) => campaign.status === filters.status);
     }
 
-    if (filters.city !== 'all') {
-      filtered = filtered.filter((campaign) => campaign.city === filters.city);
+    if (filters.cities.length > 0) {
+      filtered = filtered.filter((campaign) => campaign.city && filters.cities.includes(campaign.city));
     }
 
-    if (filters.region !== 'all') {
-      filtered = filtered.filter((campaign) => campaign.region === filters.region);
+    if (filters.regions.length > 0) {
+      filtered = filtered.filter((campaign) => campaign.region && filters.regions.includes(campaign.region));
     }
 
-    if (filters.bxType !== 'all') {
-      filtered = filtered.filter((campaign) => campaign.bx_type === filters.bxType);
+    if (filters.bxTypes.length > 0) {
+      filtered = filtered.filter((campaign) => campaign.bx_type && filters.bxTypes.includes(campaign.bx_type));
     }
 
-    if (filters.trafficSource !== 'all') {
-      filtered = filtered.filter((campaign) => campaign.traffic_source === filters.trafficSource);
+    if (filters.trafficSources.length > 0) {
+      filtered = filtered.filter((campaign) => campaign.traffic_source && filters.trafficSources.includes(campaign.traffic_source));
     }
 
-    if (filters.channel !== 'all') {
-      filtered = filtered.filter((campaign) => campaign.channel === filters.channel);
+    if (filters.channels.length > 0) {
+      filtered = filtered.filter((campaign) => campaign.channel && filters.channels.includes(campaign.channel));
     }
 
-    if (filters.conversionType !== 'all') {
-      filtered = filtered.filter((campaign) => campaign.conversion_type === filters.conversionType);
+    if (filters.conversionTypes.length > 0) {
+      filtered = filtered.filter((campaign) => campaign.conversion_type && filters.conversionTypes.includes(campaign.conversion_type));
     }
 
-    if (filters.centerName !== 'all') {
-      filtered = filtered.filter((campaign) => campaign.center_name === filters.centerName);
+    if (filters.centerNames.length > 0) {
+      filtered = filtered.filter((campaign) => campaign.center_name && filters.centerNames.includes(campaign.center_name));
     }
 
-    if (filters.rh !== 'all') {
-      filtered = filtered.filter((campaign) => campaign.rh === filters.rh);
+    if (filters.rhs.length > 0) {
+      filtered = filtered.filter((campaign) => campaign.rh && filters.rhs.includes(campaign.rh));
     }
 
     setFilteredCampaigns(filtered);
