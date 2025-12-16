@@ -21,7 +21,7 @@ export default function ActiveCampaigns() {
   const [campaigns, setCampaigns] = useState<CampaignWithMetrics[]>([]);
   const [filteredCampaigns, setFilteredCampaigns] = useState<CampaignWithMetrics[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filterOpen, setFilterOpen] = useState(false);
+  const [filterOpen, setFilterOpen] = useState(true);
   const [filters, setFilters] = useState<Filters>({
     search: '',
     platforms: [],
@@ -236,7 +236,7 @@ export default function ActiveCampaigns() {
 
   if (loading) {
     return (
-      <PageLayout>
+      <PageLayout hasFilterSidebar>
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <div className="flex flex-col items-center gap-4">
             <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
@@ -256,11 +256,11 @@ export default function ActiveCampaigns() {
         isOpen={filterOpen}
         onClose={() => setFilterOpen(false)}
       />
-      <PageLayout>
+      <PageLayout hasFilterSidebar>
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="mb-8 flex items-center justify-between">
             <div>
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Active Campaigns</h1>
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Campaign Data</h1>
               <p className="text-sm sm:text-base text-gray-600">Monitor and analyze your campaign performance</p>
             </div>
             <button
