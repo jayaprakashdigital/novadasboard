@@ -35,7 +35,7 @@ export default function Navigation() {
     },
     {
       path: '/campaigns',
-      label: 'Active Campaigns',
+      label: 'Data',
       icon: Target,
     },
     {
